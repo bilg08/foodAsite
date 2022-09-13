@@ -1,13 +1,17 @@
 import { storage } from "./firebase";
 import { getStorage,getDownloadURL, ref as sRef, uploadBytes } from "firebase/storage";
 import { useFoodsDatasContext } from "../context/foodsContext";
+import { setDocToFirebase } from "./setDoc";
 
-export const uploadImageToFirebase = (file, foodName) => {
+export const uploadImageToFirebase = async(file, foodName) => {
     const storageRef = sRef(storage, `foods/${foodName}`); 
-    uploadBytes(storageRef, file)
-        .then(async (snapshot) => {            
-            getDownloadURL(snapshot.ref).then((url) => {
+    await uploadBytes(storageRef, file)
+        .then(async (snapshot) => {   
+            await getDownloadURL(snapshot.ref).then(async (url) => {
                 console.log(url)
+                await setDocToFirebase(`foods/${foodName}`, {
+                    img:url
+                });
             })
     })
       .catch((err) => console.log(err));

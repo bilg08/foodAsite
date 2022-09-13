@@ -1,7 +1,9 @@
-import { AppBar, Toolbar, Typography,styled } from "@mui/material";
+import { AppBar, Toolbar, Typography,styled, IconButton } from "@mui/material";
 import { Box } from "@mui/system";
 import SearchIcon from "@mui/icons-material/Search";
 import NotificationsNoneIcon from "@mui/icons-material/NotificationsNone";
+import MenuIcon from "@mui/icons-material/Menu";
+
 const drawerWidth = 240;
 export const NavBar = (props) => {
   const StyledHeader = styled(Toolbar)(({ theme }) => ({
@@ -30,19 +32,37 @@ export const NavBar = (props) => {
     justifyContent: "space-between",
     color: "black",
   }));
+  const styles = {
+    menuButton: (theme) => ({
+      color: "black",
+      mr: 2,
+      display:'none',
+      [theme.breakpoints.down("sm")]: {
+        display: "block",
+      },
+    }),
+  };
   return (
     <AppBar
       position="fixed"
-      sx={{ width: `calc(100% - ${drawerWidth}px)`, ml: `${drawerWidth}px` }}
-    >
+      sx={{ width: `calc(100% - ${drawerWidth}px)`, ml: `${drawerWidth}px` }}>
       <StyledHeader>
+        <IconButton
+          color="inherit"
+          aria-label="open drawer"
+          edge="start"
+          sx={styles.menuButton}
+          // onClick={handleDrawerToggle}
+        >
+          <MenuIcon />
+        </IconButton>
         <Box>
           <h2>{props.name}</h2>
         </Box>
         <HeaderSectionWithAvatarAndSearchNotification>
           <HeaderSectionWithAvatar>
             <SearchIcon />
-            <NotificationsNoneIcon/>
+            <NotificationsNoneIcon />
           </HeaderSectionWithAvatar>
         </HeaderSectionWithAvatarAndSearchNotification>
       </StyledHeader>

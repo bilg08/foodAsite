@@ -10,11 +10,13 @@ import {
   CardMedia,
   Fab,
   Grid,
+  Toolbar,
 } from "@mui/material";
 import RestaurantMenuIcon from "@mui/icons-material/RestaurantMenu";
 import { SideBar } from "../../components/sideBar/sideBar";
 import { AddNewFood } from "../../components/addNewFood/addNewFood";
 import { NavBar } from "../../components/navbar/navbar";
+import { deleteDocOfFirebase } from "../../firebaseForThisProject/deleteDoc";
 
 const drawerWidth = 240;
 
@@ -44,17 +46,23 @@ export const Menu = () => {
 
     container: (theme) => ({
       width: `calc(100% - ${drawerWidth}px)`,
-      height: `100vh`,
+      height: `auto`,
       background: "#F5F5F7",
       display: "flex",
       justifyContent: "space-around",
       alignItems: "center",
       color: "black",
+      marginTop: "auto",
+      position: "absolute",
+      top: `10%`,
+      right: 0,
+      gap: `10px`,
+      textAlign: "center",
     }),
     food: (theme) => ({
       color: "black",
-      width: `300px`,
-      height: `420px`,
+      width: `250px`,
+      height: `350px`,
       display: "flex",
       background: "transparent",
       justifyContent: "center",
@@ -64,37 +72,37 @@ export const Menu = () => {
     }),
     addFoodBtn: (theme) => ({
       color: "white",
-      background: "#66B60F",
+      background: theme.palette.green,
     }),
 
     addFoodLogo: (theme) => ({
-      color: "white",
-      width: `150px`,
-      height: `158px`,
+      color: "#66B60F",
+      width: `130px`,
+      height: `130px`,
       borderRadius: `100%`,
       position: "absolute",
       zIndex: 1,
       top: 0,
-      left: `25%`,
-      background: "#66B60F",
+      left: `30`,
+      background: `#F0F8E7`,
+      border: `4px solid #66B60F`,
     }),
     foodImg: (theme) => ({
       color: "white",
-      width: `150px`,
-      height: `158px`,
+      width: `130px`,
+      height: `130px`,
       borderRadius: `100%`,
       position: "absolute",
       zIndex: 1,
       top: 0,
-      left: `25%`,
+      left: `30`,
     }),
     foodAboutContainer: (theme) => ({
       boxSizing: `borderBox`,
       position: `absolute`,
-      width: `85%`,
-      height: "300px",
+      width: `192px`,
+      height: "250px",
       bottom: "0",
-      border: `1px solid rgba(0, 7, 35, 0.08)`,
       borderRadius: `10px`,
       background: "white",
     }),
@@ -131,12 +139,11 @@ export const Menu = () => {
     }),
   };
   return (
-    <Grid sx={{ display: "flex", background: "red" }}>
+    <Grid sx={{ display: "flex", background: "red",}}>
       <NavBar name="Меню" />
       <SideBar />
-
       <Grid container sx={styles.container}>
-        <Grid item sx={styles.food}>
+        <Grid item >
           <Card sx={styles.food}>
             <Fab sx={styles.addFoodLogo}>
               <RestaurantMenuIcon />
@@ -144,7 +151,7 @@ export const Menu = () => {
             <CardContent sx={styles.foodAboutContainer}>
               <Typography sx={styles.AddNewFoodContainer} component="div">
                 <Box sx={styles.addNewFoodMain}>
-                  <h1>Шинэ хоол нэмэх</h1>
+                  <p style={{fontSize:`18px`}}>Шинэ хоол нэмэх</p>
                   <Fab
                     onClick={() => setIsAddNewFoodFormOpen(true)}
                     sx={styles.addFoodBtn}
@@ -190,7 +197,9 @@ export const Menu = () => {
                         }}
                       >
                         <h3>{food.price}₮</h3>
-                        <Fab sx={styles.addFoodBtn} size="medium">
+                        <Fab onClick={() => {
+                          deleteDocOfFirebase(`foods/${food.name}`)
+                        }} sx={styles.addFoodBtn} size="medium">
                           <RemoveIcon />
                         </Fab>
                       </Box>

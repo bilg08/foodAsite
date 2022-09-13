@@ -10,7 +10,7 @@ import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
-import { CardMedia } from "@mui/material";
+import { Button, CardMedia, IconButton } from "@mui/material";
 import ListAltIcon from "@mui/icons-material/ListAlt";
 import SignalCellularAltIcon from '@mui/icons-material/SignalCellularAlt';
 import SettingsIcon from "@mui/icons-material/Settings";
@@ -19,41 +19,49 @@ import {Link} from 'react-router-dom'
 import logo from "../../asset/Logo.png";
 const drawerWidth = 240;
 const styles = {
-    DrawerTop: (theme) => ({
-        width: `80%`,
-        height: `auto`,
-        border: `1px solid silver`,
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-        flexDirection: "column",
-        color: "white",
-        marginTop: "25%",
-    }),
-    button: (theme) => ({
-        color: "white",
-        "&:active": {
-            background: "linear-gradient(#5aff15,#00b712)",
-            transition: "0.3s",
-        },
-    }),
-}
+  DrawerTop: (theme) => ({
+    width: `80%`,
+    height: `auto`,
+    border: `1px solid silver`,
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    flexDirection: "column",
+    color: "white",
+    marginTop: "25%",
+  }),
+  button: (theme) => ({
+    color: "white",
+    "&:active": {
+      background: theme.palette.onClickNavbarItemColor,
+      transition: "0.3s",
+    },
+  }),
+  
+};
 export const SideBar = () => {
+  const [isMobile,setIsMobile]=React.useState(false)
     return (
       <Drawer
         sx={{
           width: drawerWidth,
           flexShrink: 0,
-          "& .MuiDrawer-paper": {
+          position: "relative",
+          "& .MuiDrawer-paper": (theme) => ({
             width: drawerWidth,
             boxSizing: "border-box",
             background: "#000723",
             display: "flex",
             alignItems: "center",
-          },
+            // display: { sm: "block" },
+            // [theme.breakpoints.down("sm")]: {
+            //   display: "none",
+            // },
+          }),
         }}
         variant="permanent"
         anchor="left">
+        
         <Box sx={styles.DrawerTop}>
           <CardMedia sx={{ width: `120px` }} component="img" src={logo} />
           <List>
@@ -79,7 +87,10 @@ export const SideBar = () => {
                 icon: <RestaurantMenuIcon />,
               },
             ].map((item, index) => (
-              <Link style={{textDecoration:'none'}} key={index} to={item.pathName}>
+              <Link
+                style={{ textDecoration: "none" }}
+                key={index}
+                to={item.pathName}>
                 <ListItem key={index} disablePadding>
                   <ListItemButton sx={styles.button}>
                     <ListItemIcon sx={{ color: "white" }}>
