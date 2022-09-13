@@ -79,7 +79,7 @@ export const SideBar = () => {
                 icon: <RestaurantMenuIcon />,
               },
             ].map((item, index) => (
-              <Link key={index} to={item.pathName}>
+              <Link style={{textDecoration:'none'}} key={index} to={item.pathName}>
                 <ListItem key={index} disablePadding>
                   <ListItemButton sx={styles.button}>
                     <ListItemIcon sx={{ color: "white" }}>

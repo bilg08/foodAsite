@@ -1,23 +1,9 @@
 import * as React from "react";
-import Box from "@mui/material/Box";
-import Drawer from "@mui/material/Drawer";
+// import Box from "@mui/material/Box";
 import AppBar from "@mui/material/AppBar";
-import Toolbar from "@mui/material/Toolbar";
-import List from "@mui/material/List";
-import Typography from "@mui/material/Typography";
-import Divider from "@mui/material/Divider";
-import ListItem from "@mui/material/ListItem";
-import ListItemButton from "@mui/material/ListItemButton";
-import ListItemIcon from "@mui/material/ListItemIcon";
-import ListItemText from "@mui/material/ListItemText";
-import { CardMedia } from "@mui/material";
-import ListAltIcon from "@mui/icons-material/ListAlt";
-import SignalCellularAltIcon from '@mui/icons-material/SignalCellularAlt';
-import SettingsIcon from "@mui/icons-material/Settings";
-import RestaurantMenuIcon from "@mui/icons-material/RestaurantMenu";
-import {Link} from 'react-router-dom'
-import logo from "../../asset/Logo.png";
 import { SideBar } from "../../components/sideBar/sideBar";
+import { NavBar } from "../../components/navbar/navbar";
+import { styled, Box, Toolbar, Typography, Grid } from "@mui/material";
 const drawerWidth = 240;
 export const OrderPage = () => {
   const styles = {
@@ -40,25 +26,23 @@ export const OrderPage = () => {
       },
     }),
   };
+  const OrdersContainer= styled(Grid)(
+    ({ theme }) => ({
+      background: "red",
+    })
+  );
   return (
     <Box sx={{ display: "flex" }}>
-      <AppBar
-        position="fixed"
-        sx={{ width: `calc(100% - ${drawerWidth}px)`, ml: `${drawerWidth}px` }}>
-        <Toolbar>
-          <Typography variant="h6" noWrap component="div">
-            Захиалга
-          </Typography>
-        </Toolbar>
-      </AppBar>
-      <SideBar/>
+      <NavBar name="Захиалга" />
+      <SideBar />
       <Box
         component="main"
         sx={{
           width: { sm: `calc(100% - ${drawerWidth}px)` },
-        }}>
+        }}
+      >
         <Toolbar />
-        <Typography paragraph>
+        <OrdersContainer>
           Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
           eiusmod tempor incididunt ut labore et dolore magna aliqua. Rhoncus
           dolor purus non enim praesent elementum facilisis leo vel. Risus at
@@ -72,7 +56,7 @@ export const OrderPage = () => {
           vivamus at augue. At augue eget arcu dictum varius duis at consectetur
           lorem. Velit sed ullamcorper morbi tincidunt. Lorem donec massa sapien
           faucibus et molestie ac.
-        </Typography>
+        </OrdersContainer>
       </Box>
     </Box>
   );
