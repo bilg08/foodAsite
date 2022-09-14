@@ -1,15 +1,10 @@
-import {OrderPage}from'./pages/orderPage/orderPage'
+import {OrderPage} from './pages/OrderPage/orderPage'
 import { ThemeProviderStyles } from "../src/themeProvider/theme";
 import { Menu } from "./pages/Menu/Menu";
 import { Route, Routes } from "react-router-dom";
-
-let _ = require("lodash")
+import './App.css'
 export const App = () => {
-//   const arr = [1, 2, 3];
-//   function num5(el) {
-//     return el+5
-//   }
-//  console.log(_.map(arr, num5));
+
   return (
 
     <ThemeProviderStyles>

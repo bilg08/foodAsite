@@ -13,7 +13,7 @@ import { Box } from "@mui/system";
 import SearchIcon from "@mui/icons-material/Search";
 import NotificationsNoneIcon from "@mui/icons-material/NotificationsNone";
 import MenuIcon from "@mui/icons-material/Menu";
-import { useGetDocsFromFireBase } from "../../firebaseForThisProject/getDocs";
+import { useGetDocsFromFireBase } from "../../firebaseForThisProject/getDocsCustomHook";
 const drawerWidth = 240;
 export const NavBar = (props) => {
   
@@ -86,7 +86,7 @@ export const NavBar = (props) => {
         >
           <h2>{props.name}</h2>
           <Box>
-            <InputLabel id="demo-simple-select-label">Age</InputLabel>
+            {/* <InputLabel id="demo-simple-select-label">Age</InputLabel>
             <Select
               labelId="demo-simple-select-label"
               id="demo-simple-select"
@@ -97,7 +97,7 @@ export const NavBar = (props) => {
               <MenuItem value={10}>Ten</MenuItem>
               <MenuItem value={20}>Twenty</MenuItem>
               <MenuItem value={30}>Thirty</MenuItem>
-            </Select>
+            </Select> */}
           </Box>
         </Box>
         <HeaderSectionWithAvatarAndSearchNotification>
