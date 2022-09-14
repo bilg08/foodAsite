@@ -100,6 +100,7 @@ export const Menu = () => {
       height: "250px",
       bottom: "0",
       borderRadius: `10px`,
+      background:'white'
     }),
     mainFoodDetailsContainer: (theme) => ({
       display: "flex",
