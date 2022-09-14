@@ -1,11 +1,28 @@
-import { AppBar, Toolbar, Typography,styled, IconButton } from "@mui/material";
+import * as React from "react";
+
+import {
+  AppBar,
+  Toolbar,
+  styled,
+  IconButton,
+  InputLabel,
+  Select,
+  MenuItem,
+} from "@mui/material";
 import { Box } from "@mui/system";
 import SearchIcon from "@mui/icons-material/Search";
 import NotificationsNoneIcon from "@mui/icons-material/NotificationsNone";
 import MenuIcon from "@mui/icons-material/Menu";
-
+import { useGetDocsFromFireBase } from "../../firebaseForThisProject/getDocs";
 const drawerWidth = 240;
 export const NavBar = (props) => {
+  
+  const [age, setAge] = React.useState("");
+  const [datas, setDatas] = useGetDocsFromFireBase("orders");
+  console.log(datas.forEach(el=>console.log(el)))
+  const handleChange = (event) => {
+    setAge(event.target.value);
+  };
   const StyledHeader = styled(Toolbar)(({ theme }) => ({
     background: "#FFFFFF",
     display: "flex",
@@ -14,16 +31,18 @@ export const NavBar = (props) => {
     position: "relative",
     color: "black",
   }));
-  const HeaderSectionWithAvatarAndSearchNotification = styled(Box)(({ theme }) => ({
-    background: "red",
-    width: `13%`,
-    height: `64px`,
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "space-between",
-  }));
+  const HeaderSectionWithAvatarAndSearchNotification = styled(Box)(
+    ({ theme }) => ({
+      background: "red",
+      width: `13%`,
+      height: `64px`,
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "space-between",
+    })
+  );
   const HeaderSectionWithAvatar = styled(Box)(({ theme }) => ({
-    border:'none',
+    border: "none",
     borderRight: `1px solid #DFE0EB`,
     width: `40%`,
     height: `64px`,
@@ -36,7 +55,7 @@ export const NavBar = (props) => {
     menuButton: (theme) => ({
       color: "black",
       mr: 2,
-      display:'none',
+      display: "none",
       [theme.breakpoints.down("sm")]: {
         display: "block",
       },
@@ -45,7 +64,8 @@ export const NavBar = (props) => {
   return (
     <AppBar
       position="fixed"
-      sx={{ width: `calc(100% - ${drawerWidth}px)`, ml: `${drawerWidth}px` }}>
+      sx={{ width: `calc(100% - ${drawerWidth}px)`, ml: `${drawerWidth}px` }}
+    >
       <StyledHeader>
         <IconButton
           color="inherit"
@@ -56,8 +76,29 @@ export const NavBar = (props) => {
         >
           <MenuIcon />
         </IconButton>
-        <Box>
+        <Box
+          sx={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between",
+            gap: `50px`,
+          }}
+        >
           <h2>{props.name}</h2>
+          <Box>
+            <InputLabel id="demo-simple-select-label">Age</InputLabel>
+            <Select
+              labelId="demo-simple-select-label"
+              id="demo-simple-select"
+              value={age}
+              label="Age"
+              onChange={handleChange}
+            >
+              <MenuItem value={10}>Ten</MenuItem>
+              <MenuItem value={20}>Twenty</MenuItem>
+              <MenuItem value={30}>Thirty</MenuItem>
+            </Select>
+          </Box>
         </Box>
         <HeaderSectionWithAvatarAndSearchNotification>
           <HeaderSectionWithAvatar>

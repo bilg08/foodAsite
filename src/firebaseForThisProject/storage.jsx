@@ -11,7 +11,7 @@ export const uploadImageToFirebase = async(file, foodName) => {
                 console.log(url)
                 await setDocToFirebase(`foods/${foodName}`, {
                     img:url
-                });
+                }).then((alert('Амжилттай хадгаллаа')));
             })
     })
       .catch((err) => console.log(err));

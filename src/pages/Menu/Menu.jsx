@@ -4,6 +4,7 @@ import Typography from "@mui/material/Typography";
 import { useFoodsDatasContext } from "../../context/foodsContext";
 import RemoveIcon from "@mui/icons-material/Remove";
 import AddIcon from "@mui/icons-material/Add";
+import {deleteFileFromFirebaseStorage} from "../../firebaseForThisProject/deleteFileFromStorage"
 import {
   Card,
   CardContent,
@@ -36,13 +37,6 @@ export const Menu = () => {
       color: "white",
       marginTop: "25%",
     }),
-    button: (theme) => ({
-      color: "white",
-      "&:active": {
-        background: "linear-gradient(#5aff15,#00b712)",
-        transition: "0.3s",
-      },
-    }),
 
     container: (theme) => ({
       width: `calc(100% - ${drawerWidth}px)`,
@@ -59,11 +53,13 @@ export const Menu = () => {
       gap: `10px`,
       textAlign: "center",
     }),
+
     food: (theme) => ({
       color: "black",
       width: `250px`,
       height: `350px`,
       display: "flex",
+      background:'red',
       background: "transparent",
       justifyContent: "center",
       alignItems: "center",
@@ -104,7 +100,6 @@ export const Menu = () => {
       height: "250px",
       bottom: "0",
       borderRadius: `10px`,
-      background: "white",
     }),
     mainFoodDetailsContainer: (theme) => ({
       display: "flex",
@@ -166,8 +161,8 @@ export const Menu = () => {
         </Grid>
         {foodsDatas.map((food, index) => {
           return (
-            <Grid key={index} item sx={styles.food}>
-              <Card sx={styles.food}>
+            <Grid key={index} item >
+              <Card  sx={styles.food}>
                 <CardMedia src={food.img} sx={styles.foodImg} component="img" />
                 <CardContent sx={styles.foodAboutContainer}>
                   <Typography
@@ -197,7 +192,10 @@ export const Menu = () => {
                         }}
                       >
                         <h3>{food.price}₮</h3>
-                        <Fab onClick={() => {
+                        <Fab onClick={async () => {
+                          await deleteFileFromFirebaseStorage(
+                            `foods/${food.name}`
+                          );
                           deleteDocOfFirebase(`foods/${food.name}`)
                         }} sx={styles.addFoodBtn} size="medium">
                           <RemoveIcon />

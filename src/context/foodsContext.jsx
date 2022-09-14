@@ -4,6 +4,7 @@ import { setDocToFirebase } from "../firebaseForThisProject/setDoc";
 export const FoodsContext = createContext();
 export const FoodsContextProvider = ({ children }) => {
   const [foodsDatas] = useGetDocsFromFireBase("foods");
+  console.log(foodsDatas)
   const [addedFoods, setAddedFoods] = useState({
     name: "",
     detail: "",

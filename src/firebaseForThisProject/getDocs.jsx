@@ -7,7 +7,7 @@ export const useGetDocsFromFireBase = (collectionName) => {
   const getData = async () => {
     setDatas((data = []));
     try {
-      const datas = await getDocs(collection(db, collectionName));
+      const datas = await getDocs(collection(db,collectionName));
       datas.forEach((e) => {
         setDatas((prevVal) => {
           let prevValACopy = prevVal;

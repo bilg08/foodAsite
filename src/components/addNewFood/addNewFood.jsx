@@ -1,5 +1,16 @@
-import { Backdrop, Box, Button, CardMedia, Grid, Input, styled, TextField, Typography } from "@mui/material";
-import CameraAltIcon from "@mui/icons-material/CameraAlt";import { useState } from "react";
+import {
+  Backdrop,
+  Box,
+  Button,
+  CardMedia,
+  Grid,
+  Input,
+  styled,
+  TextField,
+  Typography,
+} from "@mui/material";
+import CameraAltIcon from "@mui/icons-material/CameraAlt";
+import { useState } from "react";
 import { setDocToFirebase } from "../../firebaseForThisProject/setDoc";
 import CloseIcon from "@mui/icons-material/Close";
 import { uploadImageToFirebase } from "../../firebaseForThisProject/storage";
@@ -10,8 +21,8 @@ export const AddNewFood = (props) => {
     name: "",
     detail: "",
     price: "",
-    img: '',
-    portion:""
+    img: "",
+    portion: "",
   });
   const [ImageUrl, setImageUrl] = useState();
   const takeUserInput = (e) => {
@@ -26,9 +37,8 @@ export const AddNewFood = (props) => {
     borderRadius: `6px`,
     width: `100%`,
     outline: "none",
-    
   }));
-  
+
   const styles = {
     addNewFoodContainer: (theme) => ({
       width: `40%`,
@@ -46,7 +56,7 @@ export const AddNewFood = (props) => {
       [theme.breakpoints.between("md", "lg")]: {
         width: `750px`,
       },
-      [theme.breakpoints.up( "lg")]: {
+      [theme.breakpoints.up("lg")]: {
         width: `850px`,
       },
     }),
@@ -119,7 +129,8 @@ export const AddNewFood = (props) => {
         justifyContent: "center",
         alignItems: "center",
       }}
-      open={true}>
+      open={true}
+    >
       <Grid container sx={styles.addNewFoodContainer}>
         <Grid item sx={styles.AddNewFoodHeader}>
           <Button onClick={() => setIsAddNewFoodFormOpen(false)}>
@@ -128,7 +139,6 @@ export const AddNewFood = (props) => {
           <Typography variant="h6">Хоол нэмэх</Typography>
           <Button
             onClick={async () => {
-              console.log(addedFoods);
               // if (
               //   addedFoods.name != "" &&
               //   addedFoods.price != "" &&
@@ -139,7 +149,8 @@ export const AddNewFood = (props) => {
               // }
             }}
             variant="outlined"
-            color="secondary">
+            color="secondary"
+          >
             Хадгалах
           </Button>
         </Grid>
@@ -157,10 +168,12 @@ export const AddNewFood = (props) => {
                   display: `inline-block`,
                   padding: `6px 12px`,
                   cursor: `pointer`,
-                }}>
+                }}
+              >
                 <Input
                   sx={{ display: "none" }}
                   onChange={(e) => {
+                  
                     var file = e.target.files[0];
                     var reader = new FileReader();
                     reader.onload = function (event) {
