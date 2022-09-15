@@ -19,7 +19,6 @@ export const NavBar = (props) => {
   
   const [age, setAge] = React.useState("");
   const [datas, setDatas] = useGetDocsFromFireBase("orders");
-  console.log(datas.forEach(el=>console.log(el)))
   const handleChange = (event) => {
     setAge(event.target.value);
   };

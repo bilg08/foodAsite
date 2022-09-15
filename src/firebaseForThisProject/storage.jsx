@@ -8,11 +8,9 @@ export const uploadImageToFirebase = async(file, foodName) => {
     await uploadBytes(storageRef, file)
         .then(async (snapshot) => {   
             await getDownloadURL(snapshot.ref).then(async (url) => {
-                console.log(url)
                 await setDocToFirebase(`foods/${foodName}`, {
                     img:url
                 }).then((alert('Амжилттай хадгаллаа')));
             })
     })
-      .catch((err) => console.log(err));
 }
