@@ -10,7 +10,7 @@ const themes = createTheme({
   typography: {
     fontFamily: ["Raleway", `sansSerif`].join(","),
   },
-  shadows: ["none"],
+  shadows: Array(25).fill("none"),
 });
 export const ThemeProviderStyles = ({ children }) => {
     return (

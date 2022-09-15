@@ -173,7 +173,6 @@ export const AddNewFood = (props) => {
                 <Input
                   sx={{ display: "none" }}
                   onChange={(e) => {
-                  
                     var file = e.target.files[0];
                     var reader = new FileReader();
                     reader.onload = function (event) {

@@ -24,7 +24,7 @@ const drawerWidth = 240;
 
 export const Menu = () => {
   const { foodsDatas } = useFoodsDatasContext(false);
-  const [isAddNewFoodFormOpen,setIsAddNewFoodFormOpen]=React.useState()
+  const [isAddNewFoodFormOpen,setIsAddNewFoodFormOpen]=React.useState(false)
   const styles = {
     DrawerTop: (theme) => ({
       width: `80%`,
