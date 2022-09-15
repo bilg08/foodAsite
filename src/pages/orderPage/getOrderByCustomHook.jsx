@@ -9,19 +9,6 @@ export const useOrdersByCustomHook = () => {
 
     const getData = async () => {
       await console.log(foodsOrders, foodsOrders);
-    // data.map(async (foodOrder, index) => {
-    //   console.log(foodOrder);
-    //   let subOrder = { date: "", orders: [] };
-    //   subOrder.date = foodOrder.date;
-    //   try {
-    //     const foodsOrdersDayByDay = await getDocsFromFireBase(
-    //       `foodsOrders/${foodOrder.date}/ThisDayOrders`
-    //     );
-    //     foodsOrdersDayByDay.forEach((foodOrderDayByDay, index) => {
-    //       subOrder.orders.push(foodOrderDayByDay.data());
-    //     });
-    //   } catch (error) {}
-    // });
   };
 
   useEffect(() => {

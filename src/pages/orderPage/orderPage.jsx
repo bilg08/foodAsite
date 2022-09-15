@@ -72,8 +72,8 @@ export const OrderPage = () => {
     }),
   };
   const OrdersContainer = styled(Grid)(({ theme }) => ({
-    width: `auto`,
-    height: `90%`,
+    width: `calc(100% - ${drawerWidth}px)`,
+    height: `auto`,
     position: "absolute",
     top: `15%`,
     background: `#F5F5F7`,
@@ -82,7 +82,6 @@ export const OrderPage = () => {
     width: `auto`,
     height: `65%`,
     display: 'flex',
-    alignItems: 'center',
     gap: `10px`,
     overflow: `scroll`,
     background:'red'
@@ -90,7 +89,8 @@ export const OrderPage = () => {
   const OrderByDay = styled(Grid)(({ theme }) => ({
     minWidth: `300px`,
     height: `100%`,
-    overflow:'scroll'
+    overflow: "scroll",
+    background: `green`,
   }));
   const OrderByDayHeader = styled(Grid)(({ theme }) => ({
     background: "darkblue",
@@ -193,9 +193,6 @@ export const OrderPage = () => {
                     })}
                   </OrderByDay>
                 );
-                // console.log(order,'order')
-                //   const ordersDayByDay = getDocsFromFireBase(`foodsOrders/${order.date}/ThisDayOrders`);
-                //   ordersDayByDay.then((res)=>res.forEach(item=>{console.log(item,'item')}))
               })
             )}
           </OrdersDayByDayContainer>
