@@ -1,5 +1,5 @@
 import { createContext, useContext, useState } from "react";
-import { useGetDocsFromFireBase } from "../firebaseForThisProject/getDocsCustomHook";
+import { useGetDocsFromFireBase } from "../customHook/getDocsCustomHook";
 import { setDocToFirebase } from "../firebaseForThisProject/setDoc";
 export const FoodsContext = createContext();
 export const FoodsContextProvider = ({ children }) => {

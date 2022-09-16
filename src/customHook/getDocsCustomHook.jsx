@@ -1,13 +1,13 @@
 import { collection, getDocs } from "firebase/firestore";
 import { useEffect, useState } from "react";
-import { db } from "./firebase";
+import { db } from "../firebaseForThisProject/firebase";
 
 export const useGetDocsFromFireBase = (collectionName) => {
   let [data, setDatas] = useState([]);
   const getData = async () => {
     setDatas((data = []));
     try {
-      const datas = await getDocs(collection(db,collectionName));
+      const datas = await getDocs(collection(db, collectionName));
       datas.forEach((e) => {
         setDatas((prevVal) => {
           let prevValACopy = prevVal;

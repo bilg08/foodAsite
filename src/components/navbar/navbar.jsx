@@ -13,7 +13,7 @@ import { Box } from "@mui/system";
 import SearchIcon from "@mui/icons-material/Search";
 import NotificationsNoneIcon from "@mui/icons-material/NotificationsNone";
 import MenuIcon from "@mui/icons-material/Menu";
-import { useGetDocsFromFireBase } from "../../firebaseForThisProject/getDocsCustomHook";
+import { useGetDocsFromFireBase } from "../../customHook/getDocsCustomHook";
 const drawerWidth = 240;
 export const NavBar = (props) => {
   
