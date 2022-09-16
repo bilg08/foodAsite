@@ -1,4 +1,4 @@
-import { OrderPage } from "./pages/OrderPage/orderPage";
+import { OrderPage } from "./pages/orderPage/orderPage";
 import { ThemeProviderStyles } from "../src/themeProvider/theme";
 import { Menu } from "./pages/Menu/Menu";
 import { Route, Routes } from "react-router-dom";

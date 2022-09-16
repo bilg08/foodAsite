@@ -1,13 +1,26 @@
 import * as React from "react";
 import { SideBar } from "../../components/sideBar/sideBar";
 import { NavBar } from "../../components/navbar/navbar";
-import { styled, Box, Toolbar, Typography, Grid, Accordion, AccordionSummary, AccordionDetails, Badge, Button, CircularProgress, Select, MenuItem } from "@mui/material";
+import {
+  styled,
+  Box,
+  Toolbar,
+  Typography,
+  Grid,
+  Accordion,
+  AccordionSummary,
+  AccordionDetails,
+  Badge,
+  CircularProgress,
+  Select,
+  MenuItem,
+} from "@mui/material";
 import { getDocsFromFireBase } from "../../firebaseForThisProject/getDocs";
 import { useGetDocsFromFireBase } from "../../firebaseForThisProject/getDocsCustomHook";
 import InventoryIcon from "@mui/icons-material/Inventory";
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { setDocToFirebase } from "../../firebaseForThisProject/setDoc";
-import {deleteDocOfFirebase} from '../../firebaseForThisProject/deleteDoc'
+import { deleteDocOfFirebase } from "../../firebaseForThisProject/deleteDoc";
 const drawerWidth = 240;
 export const OrderPage = () => {
   const [orderType, setOrderType] = React.useState("Хүргэгдээгүй");
@@ -23,14 +36,17 @@ export const OrderPage = () => {
       prevValACopy = val;
       if (val === "Хүргэгдсэн") {
         console.log(`foodsOrders/${date}/ThisDayOrders/${orderUid}`);
-        await setDocToFirebase(`foodsOrders/${date}/ThisDayOrders/${orderUid}`, subOrder);
+        await setDocToFirebase(
+          `foodsOrders/${date}/ThisDayOrders/${orderUid}`,
+          subOrder
+        );
         await deleteDocOfFirebase(
           `foodsOrders/${date}/ThisDayOrders/${orderUid}`
-        ).then(console.log('ustgalaa'));
-          await setDocToFirebase(
-            `foodsOrders/${date}/orderedOrders/${orderUid}`,
-            subOrder
-          );
+        ).then(console.log("ustgalaa"));
+        await setDocToFirebase(
+          `foodsOrders/${date}/orderedOrders/${orderUid}`,
+          subOrder
+        );
       }
       return val;
     });
@@ -41,30 +57,25 @@ export const OrderPage = () => {
   }, [foodsOrders]);
 
   async function getOrderDayByDayFromFirebase() {
-    setOrdersByDay(ordersByDay=[])
+    setOrdersByDay((ordersByDay = []));
     foodsOrders.map(async (foodOrder, foodOrderIndex) => {
-
       let subOrder = { date: "", orders: [] };
       subOrder.date = foodOrder.date;
-        try {
+      try {
         const foodsOrdersDayByDay = await getDocsFromFireBase(
           `foodsOrders/${foodOrder.date}/ThisDayOrders`
         );
         foodsOrdersDayByDay.forEach((foodOrderDayByDay, index) => {
           subOrder.orders.push(foodOrderDayByDay.data());
         });
-      } catch (error) { }
-     
-      
+      } catch (error) {}
 
-      setOrdersByDay(prevVal => {
+      setOrdersByDay((prevVal) => {
         let prevValACopy = prevVal;
         prevValACopy = [...prevValACopy, subOrder];
         subOrder = {};
-        return (prevVal = prevValACopy)
-      })
-
-      
+        return (prevVal = prevValACopy);
+      });
     });
   }
   async function getOrderedOrderDayByDayFromFirebase() {
@@ -89,7 +100,7 @@ export const OrderPage = () => {
       });
     });
   }
-  
+
   const styles = {
     DrawerTop: (theme) => ({
       width: `80%`,
@@ -116,23 +127,22 @@ export const OrderPage = () => {
     position: "absolute",
     top: `15%`,
     background: `#F5F5F7`,
-    display: 'flex',
-    flexDirection:'column'
+    display: "flex",
+    flexDirection: "column",
   }));
   const OrdersDayByDayContainer = styled(Grid)(({ theme }) => ({
-
-    display: 'flex',
+    display: "flex",
     gap: `10px`,
     overflow: `scroll`,
-    background:'red'
+    background: "red",
   }));
-   const OrderedOrdersDayByDayContainer = styled(Grid)(({ theme }) => ({
-     width: `auto`,
-     display: "flex",
-     gap: `10px`,
-     overflow: `scroll`,
-     background: "red",
-   }));
+  const OrderedOrdersDayByDayContainer = styled(Grid)(({ theme }) => ({
+    width: `auto`,
+    display: "flex",
+    gap: `10px`,
+    overflow: `scroll`,
+    background: "red",
+  }));
   const OrderByDay = styled(Grid)(({ theme }) => ({
     minWidth: `300px`,
     height: `100%`,
@@ -145,10 +155,10 @@ export const OrderPage = () => {
     height: `48px`,
     background: ` #FFFFFF`,
     border: `1px solid #DFE0EB`,
-    display: 'flex',
-    justifyContent: 'space-around',
-    alignItems: 'center',
-    color:`#A0A2A8`
+    display: "flex",
+    justifyContent: "space-around",
+    alignItems: "center",
+    color: `#A0A2A8`,
   }));
   return (
     <Box sx={{ display: "flex" }}>
@@ -158,10 +168,11 @@ export const OrderPage = () => {
         component="main"
         sx={{
           width: { sm: `calc(100% - ${drawerWidth}px)` },
-        }}>
+        }}
+      >
         <Toolbar />
         <OrdersContainer container>
-          <OrdersDayByDayContainer item>
+          {/* <OrdersDayByDayContainer item>
             <h1>Ирсэн захиалга </h1>
             {ordersByDay.length <= 0 ? (
               <CircularProgress />
@@ -184,13 +195,15 @@ export const OrderPage = () => {
                           <AccordionSummary
                             expandIcon={<ExpandMoreIcon />}
                             aria-controls="panel1a-content"
-                            id="panel1a-header">
+                            id="panel1a-header"
+                          >
                             <Typography
                               sx={{
                                 display: "flex",
                                 width: `100%`,
                                 justifyContent: `space-around`,
-                              }}>
+                              }}
+                            >
                               <p>{oneOrder.uid}</p>
                               <p>{oneOrder.when}</p>
                             </Typography>
@@ -201,13 +214,15 @@ export const OrderPage = () => {
                                 display: "flex",
                                 flexDirection: "column",
                                 width: `100%`,
-                              }}>
+                              }}
+                            >
                               {oneOrder.orderedFoods.map((orderedFood) => {
                                 return (
                                   <ul
                                     sx={{
                                       display: "flex",
-                                    }}>
+                                    }}
+                                  >
                                     <li>
                                       {Object.keys(orderedFood)}:
                                       {Object.values(orderedFood)}
@@ -230,7 +245,8 @@ export const OrderPage = () => {
                                 order,
                                 oneOrderIndex
                               )
-                            }>
+                            }
+                          >
                             <MenuItem
                               value="Хүргэгдээгүй"
                               sx={{
@@ -239,7 +255,8 @@ export const OrderPage = () => {
                                 borderRadius: `10px`,
                                 color: "white",
                                 height: `32px`,
-                              }}>
+                              }}
+                            >
                               Хүргэгдээгүй
                             </MenuItem>
                             <MenuItem
@@ -250,7 +267,8 @@ export const OrderPage = () => {
                                 borderRadius: `10px`,
                                 color: "white",
                                 height: `32px`,
-                              }}>
+                              }}
+                            >
                               Хүргэгдсэн
                             </MenuItem>
                           </Select>
@@ -261,7 +279,7 @@ export const OrderPage = () => {
                 );
               })
             )}
-          </OrdersDayByDayContainer>
+          </OrdersDayByDayContainer> */}
 
           {/* <OrderedOrdersDayByDayContainer item>
             <h1>Хүргэгдсэн захиалга</h1>
@@ -336,5 +354,3 @@ export const OrderPage = () => {
     </Box>
   );
 };
- 
-
