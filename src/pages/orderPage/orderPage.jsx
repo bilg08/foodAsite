@@ -29,7 +29,7 @@ import {
   ShippedOrder,
   NewOrder,
 } from "./styles.jsx";
-import { useGetDatasFromArrayofDoc } from "../../customHook/getDatasFromDoc'sArray";
+import { useGetDatasFromArrayofDoc } from "../../customHook/getDatasFromDocsArray";
 
 export const OrderPage = () => {
   const newOrders = useGetDatasFromArrayofDoc("ThisDayOrders");
@@ -50,7 +50,8 @@ export const OrderPage = () => {
       <Grid sx={styles.newOrdersContainer}>
         <AOrdersHeader>Шинэ захиалга</AOrdersHeader>
         <OrdersContainer>
-          {newOrders.map((newOrder, index) => {
+          {newOrders.length <= 0 ? null : newOrders.map((newOrder, index) => {
+            console.log(newOrder)
             return (
               <NewOrder>
                 <Grid
@@ -60,7 +61,7 @@ export const OrderPage = () => {
                     justifyContent: "space-around",
                   }}>
                   <p>{newOrder.date}</p>
-                  <Badge badgeContent={newOrder.orders.length} color="primary">
+                  <Badge  color="primary">
                     <InventoryIcon />
                   </Badge>
                 </Grid>
@@ -77,7 +78,6 @@ export const OrderPage = () => {
                             width: `100%`,
                             justifyContent: `space-around`,
                           }}>
-                          <p>{newOrderOrders.uid}</p>
                           <p>{newOrderOrders.when}</p>
                         </Typography>
                       </AccordionSummary>
@@ -137,13 +137,14 @@ export const OrderPage = () => {
       <Grid sx={styles.shippedOrdersContainer}>
         <AOrdersHeader>Хүргэгдсэн захиалга</AOrdersHeader>
         <OrdersContainer>
-          {shippedOrders.map((shippedOrder, index) => {
+          {shippedOrders.length <= 0 ? null
+          :shippedOrders.map((shippedOrder, index) => {
             return (
               <NewOrder>
                 <Grid sx={{display: "flex",alignItems: "center",justifyContent: "space-around",}}>
                   <p>{shippedOrder.date}</p>
                   <Badge
-                    badgeContent={shippedOrder.orders.length}
+                    // badgeContent={shippedOrder.orders.length}
                     color="primary">
                     <InventoryIcon />
                   </Badge>
@@ -161,7 +162,6 @@ export const OrderPage = () => {
                             width: `100%`,
                             justifyContent: `space-around`,
                           }}>
-                          <p>{shippedOrderOrders.uid}</p>
                           <p>{shippedOrderOrders.when}</p>
                         </Typography>
                       </AccordionSummary>
