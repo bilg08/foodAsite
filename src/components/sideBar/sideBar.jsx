@@ -87,7 +87,7 @@ export const SideBar = (props) => {
         ].map((item, index) => (
           <Link
             style={{ textDecoration: "none" }}
-            key={index}
+            key={item.text}
             to={item.pathName}>
             <ListItem key={index} disablePadding>
               <ListItemButton sx={styles.button}>

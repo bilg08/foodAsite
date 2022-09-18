@@ -8,12 +8,11 @@ export const styles = {
     height: `auto`,
     p: 10,
     display: "flex",
-    // flexDirection:'column',
+    flexDirection: "column",
     background: "#F5F5F7",
+    overflow: "scroll",
     flexWrap: "wrap",
     position: "relative",
-    // justifyContent: 'center',
-    // alignItems:'center',
     gap: `10px`,
     [theme.breakpoints.down("sm")]: {
       width: `100%`,
@@ -23,25 +22,33 @@ export const styles = {
     minWidth: `250px`,
     width: `auto`,
     overflow: "scroll",
-    border: `1px solid #DFE0EB`,
+    display: "flex",
+    flexDirection: "column",
   }),
   shippedOrdersContainer: (theme) => ({
     minWidth: `250px`,
     width: `auto`,
     overflow: "scroll",
-    border: `1px solid #DFE0EB`,
+    display: "flex",
+    flexDirection: "column",
   }),
 };
 export const AOrdersHeader = styled(Grid)(({ theme }) => ({
   width:`auto`,
   height: `auto`,
-  background: `#F5F5F7`,
+  background: `white`,
+  display: 'flex',
+  justifyContent: 'start',
 }));
 
 export const OrdersContainer = styled(Grid)(({ theme }) => ({
   maxWidth: `100%`,
   height: `auto`,
-  display:'flex',
+  display: "flex",
+  flexFlow: "row",
+  [theme.breakpoints.down("md")]: {
+    flexFlow: "column",
+  },
 }));
 export const NewOrder = styled(Grid)(({ theme }) => ({
   minWidth: `250px`,

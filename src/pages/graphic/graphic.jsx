@@ -5,15 +5,23 @@ import { SideBar } from "../../components/sideBar/sideBar";
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
 import { Pie } from "react-chartjs-2";
 import { styles } from "./styles";
+import { useGetDatasFromArrayofDoc } from "../../customHook/getDatasFromDocsArray";
+import { useGetDocsFromFireBase } from "../../customHook/getDocsCustomHook";
+import { useEffect } from "react";
+import { useGetAllOrdersDetails } from "../../customHook/getAllOrdersDetails";
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
-export const data = {
-  labels: ["Red", "Blue", "Yellow", "Green", "Purple", "Orange"],
+
+
+export const Graphic = () => {
+  const allOrdersDetails = useGetAllOrdersDetails();
+  const data = {
+  labels: allOrdersDetails.ordersDayByDayOrdersLength,
   datasets: [
     {
       label: "# of Votes",
-      data: [12, 19, 3, 5, 2, 3],
+      data: [5,5],
       backgroundColor: [
         "rgba(255, 99, 132, 0.2)",
         "rgba(54, 162, 235, 0.2)",
@@ -34,10 +42,6 @@ export const data = {
     },
   ],
 };
-
-export const Graphic = () => {
-
-
   return (
     <Grid container>
       <SideBar />
@@ -46,19 +50,19 @@ export const Graphic = () => {
           <Grid item>
             <Card sx={styles.card}>
               <h2>Нийт орлого</h2>
-              <h3>100000₮</h3>
+              <h3>{allOrdersDetails.totalProfit}</h3>
             </Card>
           </Grid>
           <Grid item>
             <Card sx={styles.card}>
               <h2>Захиалга</h2>
-              <h3>4</h3>
+              <h3>{allOrdersDetails.ordersLength}</h3>
             </Card>
           </Grid>
           <Grid item>
             <Card sx={styles.card}>
               <h2>Хүргэсэн</h2>
-              <h3>4</h3>
+              <h3>{allOrdersDetails.shippedOrderslength }</h3>
             </Card>
           </Grid>
           <Grid item>
