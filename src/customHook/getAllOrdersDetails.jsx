@@ -52,7 +52,6 @@ export const useGetAllOrdersDetails = () => {
                         });
                   });
                   getAllOrderLength.forEach((order) => {
-                      console.log(order.data(),'data')
                     // subOrder[1]++;
                     setData((prevVal) => {
                       let prevValACopy = prevVal;

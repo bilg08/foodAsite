@@ -23,7 +23,6 @@ import {
   NewOrder,
 } from "./styles.jsx";
 import { useGetDatasFromArrayofDoc } from "../../customHook/getDatasFromDocsArray";
-
 export const OrderPage = () => {
   const newOrders = useGetDatasFromArrayofDoc("ThisDayOrders");
   const shippedOrders = useGetDatasFromArrayofDoc("shippedOrders");
