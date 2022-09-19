@@ -75,11 +75,6 @@ export const SideBar = (props) => {
             icon: <SignalCellularAltIcon />,
           },
           {
-            text: "Тохиргоо",
-            pathName: "/Settings",
-            icon: <SettingsIcon />,
-          },
-          {
             text: "Меню",
             pathName: "/Menu",
             icon: <RestaurantMenuIcon />,

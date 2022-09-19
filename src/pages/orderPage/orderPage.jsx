@@ -27,29 +27,28 @@ import { useGetDatasFromArrayofDoc } from "../../customHook/getDatasFromDocsArra
 export const OrderPage = () => {
   const newOrders = useGetDatasFromArrayofDoc("ThisDayOrders");
   const shippedOrders = useGetDatasFromArrayofDoc("shippedOrders");
-
+console.log(shippedOrders)
 
   const NewOrders = () => {
     const changeOrderTypeAsShipped = async (orderedDate, orderUid, orderData) => {
+      // await deleteDocOfFirebase(
+      //   `foodsOrders/${orderedDate}/shippedOrders/${orderUid}`
+      // );
       await setDocToFirebase(
         `foodsOrders/${orderedDate}/shippedOrders/${orderUid}`,
         orderData
       );
-      deleteDocOfFirebase(
-        `foodsOrders/${orderedDate}/ThisDayOrders/${orderUid}`
-      ).then(
-        console.log(`foodsOrders/${orderedDate}/ThisDayOrders/${orderUid}`)
-      );
+      
     }
 
     return (
       <Grid sx={styles.newOrdersContainer}>
         <AOrdersHeader>
-          <h3>Шинэ захиалга</h3>
+          <h3>Захиалганууд</h3>
         </AOrdersHeader>
         <OrdersContainer>
           {newOrders.length <= 0
-            ? null
+            ? undefined
             : newOrders.map((newOrder, index) => {
                 return (
                   <NewOrder key={index}>
@@ -64,19 +63,22 @@ export const OrderPage = () => {
                         <InventoryIcon />
                       </Badge>
                     </Grid>
-                    {newOrder.orders.map((newOrderOrders,index) => {
+                    {newOrder.orders.map((newOrderOrders, index) => {
+                      
                       return (
                         <Accordion key={index}>
                           <AccordionSummary
                             expandIcon={<ExpandMoreIcon />}
                             aria-controls="panel1a-content"
-                            id="panel1a-header">
+                            id="panel1a-header"
+                          >
                             <Typography
                               sx={{
                                 display: "flex",
                                 width: `100%`,
                                 justifyContent: `space-around`,
-                              }}>
+                              }}
+                            >
                               <p>{newOrderOrders.when}</p>
                             </Typography>
                           </AccordionSummary>
@@ -86,34 +88,22 @@ export const OrderPage = () => {
                                 display: "flex",
                                 flexDirection: "column",
                                 width: `100%`,
-                              }}>
-                              {/* {newOrderOrders.orderedFoods.map(
-                                (orderedFood) => {
-                                  return (
-                                    <ul
-                                      sx={{
-                                        display: "flex",
-                                      }}>
-                                      <li>
-                                        {Object.keys(orderedFood)}:
-                                        {Object.values(orderedFood)}
-                                      </li>
-                                    </ul>
-                                  );
-                                }
-                              )} */}
-                            </Typography>
+                              }}
+                            ></Typography>
                             <Typography
-                              sx={{ display: "flex", alignItems: "center" }}>
+                              sx={{ display: "flex", alignItems: "center" }}
+                            >
                               <LocationOnIcon sx={{ color: "#66B60F" }} />
                               <p>{newOrderOrders.destination}</p>
                             </Typography>
                             <Typography
-                              sx={{ display: "flex", alignItems: "center" }}>
+                              sx={{ display: "flex", alignItems: "center" }}
+                            >
                               <PhoneIcon sx={{ color: "#66B60F" }} />
                               <p>{newOrderOrders.phoneNumber}</p>
                             </Typography>
                             <Button
+                              disabled={newOrderOrders.isOrdered}
                               onClick={() =>
                                 changeOrderTypeAsShipped(
                                   newOrder.date,
@@ -127,7 +117,8 @@ export const OrderPage = () => {
                                 borderRadius: `10px`,
                                 color: "white",
                                 height: `32px`,
-                              }}>
+                              }}
+                            >
                               Хүргэгдсэн
                             </Button>
                           </AccordionDetails>
@@ -149,8 +140,8 @@ export const OrderPage = () => {
           <h3>Хүргэгдсэн захиалга</h3>
         </AOrdersHeader>
         <OrdersContainer>
-          {shippedOrders.length <= 0
-            ? null
+          {shippedOrders.length <= 0 && shippedOrders.length===undefined
+            ? undefined
             : shippedOrders.map((shippedOrder, index) => {
                 return (
                   <NewOrder key={`shippedOrder${index}`}>
@@ -159,7 +150,8 @@ export const OrderPage = () => {
                         display: "flex",
                         alignItems: "center",
                         justifyContent: "space-around",
-                      }}>
+                      }}
+                    >
                       <p>{shippedOrder.date}</p>
                       <Badge
                         badgeContent={
@@ -167,11 +159,13 @@ export const OrderPage = () => {
                             ? 0
                             : shippedOrder.orders.length
                         }
-                        color="primary">
+                        color="primary"
+                      >
                         <InventoryIcon />
                       </Badge>
                     </Grid>
                     {shippedOrder.orders.map((shippedOrderOrders) => {
+                      console.log(shippedOrderOrders.orderedFoods);
                       return (
                         <Accordion
                           key={`shippedOrderOrders${shippedOrderOrders}`}
@@ -179,17 +173,20 @@ export const OrderPage = () => {
                             borderRadius: `10px`,
                             border: `1px solid #DFE0EB`,
                             borderRadius: `10px`,
-                          }}>
+                          }}
+                        >
                           <AccordionSummary
                             expandIcon={<ExpandMoreIcon />}
                             aria-controls="panel1a-content"
-                            id="panel1a-header">
+                            id="panel1a-header"
+                          >
                             <Typography
                               sx={{
                                 display: "flex",
                                 width: `100%`,
                                 justifyContent: `space-around`,
-                              }}>
+                              }}
+                            >
                               <p>{shippedOrderOrders.when}</p>
                             </Typography>
                           </AccordionSummary>
@@ -198,8 +195,9 @@ export const OrderPage = () => {
                               sx={{
                                 display: "flex",
                                 flexDirection: "column",
-                              }}>
-                              {shippedOrderOrders.orderedFoods.map(
+                              }}
+                            >
+                              {/* {shippedOrderOrders.orderedFoods.map(
                                 (orderedFood) => {
                                   return (
                                     <ul
@@ -207,7 +205,8 @@ export const OrderPage = () => {
                                       sx={{
                                         display: "flex",
                                         justifyContent: "space-around",
-                                      }}>
+                                      }}
+                                    >
                                       <li sx={{ listStyle: "none" }}>
                                         {Object.keys(orderedFood)}:
                                         {Object.values(orderedFood)}
@@ -215,15 +214,17 @@ export const OrderPage = () => {
                                     </ul>
                                   );
                                 }
-                              )}
+                              )} */}
                             </Typography>
                             <Typography
-                              sx={{ display: "flex", alignItems: "center" }}>
+                              sx={{ display: "flex", alignItems: "center" }}
+                            >
                               <LocationOnIcon sx={{ color: "#66B60F" }} />
                               <p>{shippedOrderOrders.destination}</p>
                             </Typography>
                             <Typography
-                              sx={{ display: "flex", alignItems: "center" }}>
+                              sx={{ display: "flex", alignItems: "center" }}
+                            >
                               <PhoneIcon sx={{ color: "#66B60F" }} />
                               <p>{shippedOrderOrders.phoneNumber}</p>
                             </Typography>

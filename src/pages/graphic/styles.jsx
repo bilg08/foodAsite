@@ -17,7 +17,6 @@ export const styles = {
   }),
   GraphicHeader: (theme) => ({
     width: `100%`,
-    background: `#f7c`,
     display: "flex",
     justifyContent: "space-between",
     alignItems: "center",

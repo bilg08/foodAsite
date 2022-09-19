@@ -8,9 +8,10 @@ export const useGetAllOrdersDetails = () => {
         ordersLength:0,
         shippedOrderslength: 0,
         returnedOrdersLength: 0,
-        ordersDayByDayOrdersLength:[]
+        ordersDayByDayOrdersLength: [],
+        ordersDateArray: [],
+        ordersDataArray:[]
     });
-    // const [shippedOrderslength, setShippedOrderslength] = useState();
     const getData = async () => {
         setCount(0)
         setData({
@@ -18,15 +19,23 @@ export const useGetAllOrdersDetails = () => {
           ordersLength: 0,
           shippedOrderslength: 0,
           returnedOrdersLength: 0,
-          ordersDayByDayOrdersLength: [],
+          ordersDateArray: [],
+          ordersDataArray: [],
         });
         try {
-            const ordersOfFoods = await getDocsFromFireBase('foodsOrders');
-            ordersOfFoods.forEach(async (order) => {
-                let subOrder = {
-                    date: order.data().date,
-                    orders:0
-                };
+          const ordersOfFoods = await getDocsFromFireBase('foodsOrders');
+          let counter = 0;
+          ordersOfFoods.forEach(async (order) => {
+              
+              setData(prevVal => {
+                let prevValACopy = prevVal;
+                prevValACopy.ordersDateArray = [
+                  ...prevValACopy.ordersDateArray,
+                  order.data().date,
+                ];
+                return(prevValACopy)
+              })
+
 
                 try {
                   const getAllOrderLength = await getDocsFromFireBase(
@@ -40,12 +49,14 @@ export const useGetAllOrdersDetails = () => {
                       let prevValACopy = prevVal;
                       prevValACopy.shippedOrderslength++;
                       return (prevVal = prevValACopy);
-                    });
+                        });
                   });
-                    getAllOrderLength.forEach((order) => {
-                    subOrder.orders++;
+                  getAllOrderLength.forEach((order) => {
+                      console.log(order.data(),'data')
+                    // subOrder[1]++;
                     setData((prevVal) => {
                       let prevValACopy = prevVal;
+                      counter++
                       prevValACopy.ordersLength++;
                       return (prevVal = prevValACopy);
                     });
@@ -71,10 +82,16 @@ export const useGetAllOrdersDetails = () => {
                   return prevValACopy;
                 });
                 setData(prevVal => {
-                    let prevValACopy = prevVal;
-                    prevValACopy.ordersDayByDayOrdersLength.push(subOrder);
+                  let prevValACopy = prevVal;
+                    prevValACopy.ordersDataArray = [
+                      ...prevValACopy.ordersDataArray,counter
+
+                    ];
+                  counter = 0;
+                  console.log(prevValACopy)
                     return(prevValACopy)
                 })
+              
             })
     } catch (error) {}
     }

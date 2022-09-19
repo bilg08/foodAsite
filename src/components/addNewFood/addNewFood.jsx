@@ -5,15 +5,14 @@ import {
   CardMedia,
   Grid,
   Input,
-  styled,
-  TextField,
   Typography,
 } from "@mui/material";
 import CameraAltIcon from "@mui/icons-material/CameraAlt";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { setDocToFirebase } from "../../firebaseForThisProject/setDoc";
 import CloseIcon from "@mui/icons-material/Close";
 import { uploadImageToFirebase } from "../../firebaseForThisProject/storage";
+import { styles, StyledInput } from "./styles";
 export const AddNewFood = (props) => {
   const { isAddNewFoodFormOpen, setIsAddNewFoodFormOpen } = props.value;
   const [foodImg, setFoodImg] = useState("");
@@ -25,101 +24,48 @@ export const AddNewFood = (props) => {
     portion: "",
   });
   const [ImageUrl, setImageUrl] = useState();
-  const takeUserInput = (e) => {
-    setAddedFoods({ ...addedFoods, [e.target.name]: e.target.value });
-  };
+
+  
+  
   const takeUserOrder = async () => {
     await setDocToFirebase(`foods/${addedFoods.name}`, addedFoods);
   };
 
-  const StyledInput = styled(TextField)((theme) => ({
-    background: `#FFFFFF`,
-    borderRadius: `6px`,
-    width: `100%`,
-    outline: "none",
-  }));
 
-  const styles = {
-    addNewFoodContainer: (theme) => ({
-      width: `40%`,
-      height: `95%`,
-      background: "white",
-      borderRadius: "10px",
-      display: "flex",
-      color: "black",
-      [theme.breakpoints.down("sm")]: {
-        width: `400px`,
-      },
-      [theme.breakpoints.between("sm", "md")]: {
-        width: `550px`,
-      },
-      [theme.breakpoints.between("md", "lg")]: {
-        width: `750px`,
-      },
-      [theme.breakpoints.up("lg")]: {
-        width: `850px`,
-      },
-    }),
-    AddNewFoodHeader: (theme) => ({
-      width: `100%`,
-      height: `8%`,
-      display: "flex",
-      justifyContent: "space-between",
-      alignItems: "center",
-    }),
-    FoodFormContainer: (theme) => ({
-      width: `100%`,
-      height: `40%`,
-      display: "flex",
-      justifyContent: "space-around",
-      alignItems: "center",
-    }),
-    FoodFormImageContainer: (theme) => ({
-      width: `40%`,
-      height: `auto`,
-      display: "flex",
-      flexDirection: "column",
-      justifyContent: "center",
-      alignItems: "center",
-      color: "white",
-    }),
-    FoodFormImage: (theme) => ({
-      width: `70%`,
-      height: `70%`,
-      borderRadius: `50%`,
-      position: "relative",
-      border: `1px solid #66B60F`,
-    }),
-    FoodForm: (theme) => ({
-      width: `50%`,
-      height: `auto`,
-      display: "flex",
-      flexDirection: "column",
-      justifyContent: "start",
-      alignItems: "start",
-    }),
-    FoodIngredients: (theme) => ({
-      width: `100%`,
-      height: `40%`,
-      background: "red",
-    }),
-    CameraIcon: (theme) => ({
-      padding: `5px`,
-      position: "absolute",
-      bottom: 0,
-      right: 0,
-      background: theme.palette.silver,
-      borderRadius: `100%`,
-      boxShadow: "0 0 0 6px white",
-    }),
-    styleForFormBottom: (theme) => ({
-      display: "flex",
-      gap: `5%`,
-      [theme.breakpoints.down("sm")]: {
-        flexDirection: "column",
-      },
-    }),
-  };
+  
+
+
+
+  const InputForFoodDetail = (props) => {
+    const { labelName, name } = props.props;
+    const takeUserInput = (e) => {
+      setAddedFoods({ ...addedFoods, [e.target.name]: e.target.value });
+    };
+   
+    return (
+      <Box sx={{ display: "flex", flexDirection: "column" }}>
+        <label style={{ fontSize: `16px`, lineHeight: "24px" }}>
+          {labelName}
+        </label>
+        <StyledInput
+          sx={styles.inputStyle}
+          value={addedFoods[name]}
+          placeholder="Энд бичнэ үү"
+          onChange={(e) => takeUserInput(e)}
+          name={name}
+        />
+      </Box>
+    );
+  }
+
+
+
+
+
+
+
+
+
   return (
     <Backdrop
       sx={{
@@ -139,17 +85,9 @@ export const AddNewFood = (props) => {
           <Typography variant="h6">Хоол нэмэх</Typography>
           <Button
             onClick={async () => {
-              // if (
-              //   addedFoods.name != "" &&
-              //   addedFoods.price != "" &&
-              //   addedFoods.img != ""
-              // ) {
               uploadImageToFirebase(foodImg, addedFoods.name);
               await takeUserOrder();
-              // }
             }}
-            variant="outlined"
-            color="secondary"
           >
             Хадгалах
           </Button>
@@ -179,11 +117,7 @@ export const AddNewFood = (props) => {
                       setImageUrl(event.target.result);
                     };
                     reader.readAsDataURL(file);
-                    setFoodImg((prevVal) => {
-                      let prevValACopy = prevVal;
-                      prevValACopy = e.target.files[0];
-                      return (prevVal = prevValACopy);
-                    });
+                    setFoodImg(file);
                   }}
                   type="file"
                 />
@@ -192,48 +126,16 @@ export const AddNewFood = (props) => {
             </Box>
           </Grid>
           <Grid item sx={styles.FoodForm}>
-            <Box sx={{ display: "flex", flexDirection: "column" }}>
-              <label style={{ fontSize: `16px`, lineHeight: "24px" }}>
-                Хоолны нэр
-              </label>
-              <StyledInput
-                value={addedFoods.name}
-                placeholder="Энд бичнэ үү"
-                onChange={(e) => takeUserInput(e)}
-                name="name"
-              />
-            </Box>
-            <Box sx={{ display: "flex", flexDirection: "column" }}>
-              <label style={{ fontSize: `16px`, lineHeight: "24px" }}>
-                Дэлгэрэнгүй
-              </label>
-              <StyledInput
-                value={addedFoods.detail}
-                sx={{ height: `70px` }}
-                placeholder="Энд бичнэ үү"
-                onChange={(e) => takeUserInput(e)}
-                name="detail"
-              />
-            </Box>
+            <InputForFoodDetail
+              props={{ labelName: "Хоолны нэр", name: "name" }}
+            />
+            <InputForFoodDetail
+              props={{ labelName: "Дэлгэрэнгүй", name: "detail" }}
+            />
+
             <Box sx={styles.styleForFormBottom}>
-              <Box>
-                <label>Үнэ</label>
-                <StyledInput
-                  value={addedFoods.price}
-                  onChange={(e) => takeUserInput(e)}
-                  name="price"
-                  placeholder="Энд бичнэ үү"
-                />
-              </Box>
-              <Box>
-                <label>Порц</label>
-                <StyledInput
-                  value={addedFoods.portion}
-                  onChange={(e) => takeUserInput(e)}
-                  name="portion"
-                  placeholder="Энд бичнэ үү"
-                />
-              </Box>
+              <InputForFoodDetail props={{ labelName: "Үнэ", name: "price" }} />
+              <InputForFoodDetail props={{ labelName: "Хэмжээ", name: "portion" }} />
             </Box>
           </Grid>
         </Grid>
