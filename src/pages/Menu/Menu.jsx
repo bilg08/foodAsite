@@ -9,6 +9,7 @@ import {
   Card,
   CardContent,
   CardMedia,
+  CircularProgress,
   Fab,
   Grid,
 } from "@mui/material";
@@ -17,9 +18,17 @@ import { SideBar } from "../../components/sideBar/sideBar";
 import { AddNewFood } from "../../components/addNewFood/addNewFood";
 import { deleteDocOfFirebase } from "../../firebaseForThisProject/deleteDoc";
 import { styles } from "./styles";
+import Spinner from "../../components/spinnerModal";
+import { useSpinnerDatasContext } from "../../context/spinnerContext";
 
 export const Menu = () => {
   const { foodsDatas } = useFoodsDatasContext(false);
+  const {
+    isSpinning,
+    setIsSpinning,
+    shouldHaveToReloadPage,
+    setShouldHaveToReloadPage,
+  } = useSpinnerDatasContext();
   const [isAddNewFoodFormOpen, setIsAddNewFoodFormOpen] = React.useState(false);
   
   const AddNewFoodBox = () => {
@@ -83,8 +92,12 @@ const Food = (props) => {
                 <h3>{food.price}₮</h3>
                 <Fab
                   onClick={async () => {
+                    setIsSpinning(true)
                     await deleteFileFromFirebaseStorage(`foods/${food.name}`);
-                    deleteDocOfFirebase(`foods/${food.name}`);
+                    deleteDocOfFirebase(`foods/${food.name}`).then(async() => {
+                      await setIsSpinning(false);
+                      setShouldHaveToReloadPage(true)
+                    });
                   }}
                   sx={styles.addFoodBtn}
                   size="medium">
@@ -105,6 +118,7 @@ const Food = (props) => {
       <SideBar />
       <Grid item justifyContent="center" sx={styles.FoodsContainer}>
         <AddNewFoodBox />
+        <Spinner/>
         {foodsDatas.map((food) => {
           return <Food key={food.name} value={food} />;
         })}

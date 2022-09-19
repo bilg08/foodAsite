@@ -1,4 +1,4 @@
-import { styled, TextField } from "@mui/material";
+import { Input, styled, TextField } from "@mui/material";
 
 export const styles = {
   addNewFoodContainer: (theme) => ({
@@ -75,11 +75,11 @@ export const styles = {
   }),
   styleForFormBottom: (theme) => ({
     display: "flex",
-    gap: `5%`,
     [theme.breakpoints.down("sm")]: {
       flexDirection: "column",
     },
   }),
+  
 };
 
 export const StyledInput = styled(TextField)((theme) => ({

@@ -11,9 +11,7 @@ export const FoodsAddingContextProvider = ({ children }) => {
   const takeUserInput = (e) => {
     setAddedFoods({ ...addedFoods, [e.target.name]: e.target.value });
   };
-  //   const takeUserOrder = async () => {
-  //     await setDocToFirebase(`foods/${addedFoods.name}`, addedFoods);
-  //   };
+
 
   return (
     <FoodsAddingContext.Provider
