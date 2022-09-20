@@ -67,7 +67,8 @@ export default function SignInSide() {
           sm={4}
           md={7}
           sx={{
-            backgroundImage: "url(https://source.unsplash.com/random)",
+            backgroundImage:
+              "url(https://images.unsplash.com/photo-1507525428034-b723cf961d3e?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1173&q=80)",
             backgroundRepeat: "no-repeat",
             backgroundColor: (t) =>
               t.palette.mode === "light"
@@ -90,7 +91,7 @@ export default function SignInSide() {
               <LockOutlinedIcon />
             </Avatar>
             <Typography component="h1" variant="h5">
-              Sign in
+              Нэвтрэх
             </Typography>
             <Box
               component="form"
@@ -102,7 +103,7 @@ export default function SignInSide() {
                 required
                 fullWidth
                 id="email"
-                label="Email Address"
+                label="ИМайл"
                 name="email"
                 autoComplete="email"
                 autoFocus
@@ -112,25 +113,24 @@ export default function SignInSide() {
                 required
                 fullWidth
                 name="password"
-                label="Password"
+                label="Нууц үг"
                 type="password"
                 id="password"
                 autoComplete="current-password"
-              />
-              <FormControlLabel
-                control={<Checkbox value="remember" color="primary" />}
-                label="Remember me"
               />
               <Button
                 type="submit"
                 fullWidth
                 variant="contained"
                 sx={{ mt: 3, mb: 2 }}>
-                Sign In
+                Нэвтрэх
               </Button>
               <Grid container>
                 <Grid item>
-                  <NavLink style={{ textDecoration: 'none', color:'black' }} to="/SignUp" variant="body2">
+                  <NavLink
+                    style={{ textDecoration: "none", color: "black" }}
+                    to="/SignUp"
+                    variant="body2">
                     {"Та бүртгэлгүй юу? "}
                   </NavLink>
                 </Grid>

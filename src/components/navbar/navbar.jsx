@@ -8,6 +8,11 @@ import {
   InputLabel,
   Select,
   MenuItem,
+  Tooltip,
+  Avatar,
+  Menu,
+  Typography,
+  Button,
 } from "@mui/material";
 import { Box } from "@mui/system";
 import SearchIcon from "@mui/icons-material/Search";
@@ -15,15 +20,32 @@ import NotificationsNoneIcon from "@mui/icons-material/NotificationsNone";
 import MenuIcon from "@mui/icons-material/Menu";
 import { useGetDocsFromFireBase } from "../../customHook/getDocsCustomHook";
 import { useAgainGetDocs } from "../../context/getDataAgainContext";
+import { useNavigate } from "react-router-dom";
+import { useIsAdminLoggedContext } from "../../context/isAdminLoggedContext";
 const drawerWidth = 240;
 export const NavBar = (props) => {
-  
-  const [age, setAge] = React.useState("");
-  const [datas, setDatas] = useGetDocsFromFireBase("orders");
-  const { pathsNavigate } = useAgainGetDocs();
-  const handleChange = (event) => {
-    setAge(event.target.value);
+  const settings = ["Logout"];
+  const [anchorElNav, setAnchorElNav] = React.useState(null);
+  const [anchorElUser, setAnchorElUser] = React.useState(null);
+  const navigate = useNavigate();
+  const { signOutFromWebSite } = useIsAdminLoggedContext();
+
+  const handleOpenNavMenu = (event) => {
+    setAnchorElNav(event.currentTarget);
   };
+  const handleOpenUserMenu = (event) => {
+    setAnchorElUser(event.currentTarget);
+  };
+
+  const handleCloseNavMenu = () => {
+    setAnchorElNav(null);
+  };
+
+  const handleCloseUserMenu = () => {
+    setAnchorElUser(null);
+  };
+
+  
   const StyledHeader = styled(Toolbar)(({ theme }) => ({
     background: "#FFFFFF",
     display: "flex",
@@ -34,7 +56,6 @@ export const NavBar = (props) => {
   }));
   const HeaderSectionWithAvatarAndSearchNotification = styled(Box)(
     ({ theme }) => ({
-      background: "red",
       width: `13%`,
       height: `64px`,
       display: "flex",
@@ -65,16 +86,13 @@ export const NavBar = (props) => {
   return (
     <AppBar
       position="fixed"
-      sx={{ width: `calc(100% - ${drawerWidth}px)`, ml: `${drawerWidth}px` }}
-    >
+      sx={{ width: `calc(100% - ${drawerWidth}px)`, ml: `${drawerWidth}px` }}>
       <StyledHeader>
         <IconButton
           color="inherit"
           aria-label="open drawer"
           edge="start"
-          sx={styles.menuButton}
-          // onClick={handleDrawerToggle}
-        >
+          sx={styles.menuButton}>
           <MenuIcon />
         </IconButton>
         <Box
@@ -83,29 +101,37 @@ export const NavBar = (props) => {
             alignItems: "center",
             justifyContent: "space-between",
             gap: `50px`,
-          }}
-        >
-          <h2>{props.name}</h2>
-          <Box>
-            {/* <InputLabel id="demo-simple-select-label">Age</InputLabel>
-            <Select
-              labelId="demo-simple-select-label"
-              id="demo-simple-select"
-              value={age}
-              label="Age"
-              onChange={handleChange}
-            >
-              <MenuItem value={10}>Ten</MenuItem>
-              <MenuItem value={20}>Twenty</MenuItem>
-              <MenuItem value={30}>Thirty</MenuItem>
-            </Select> */}
-          </Box>
+          }}>
+          <h2>{props.type}</h2>
+          <Box></Box>
         </Box>
         <HeaderSectionWithAvatarAndSearchNotification>
           <HeaderSectionWithAvatar>
             <SearchIcon />
             <NotificationsNoneIcon />
           </HeaderSectionWithAvatar>
+          <Box sx={{ flexGrow: 0 }}>
+            <Tooltip title="Open settings">
+              <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
+                <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
+              </IconButton>
+            </Tooltip>
+            <Menu
+              sx={{ mt: "45px" }}
+              id="menu-appbar"
+              anchorEl={anchorElUser}
+              open={Boolean(anchorElUser)}
+              onClose={handleCloseUserMenu}>
+              {settings.map((setting) => (
+                <MenuItem key={setting} onClick={handleCloseUserMenu}>
+                  <Button onClick={async() => {
+                    await signOutFromWebSite();
+                    navigate('/')
+                  }} textAlign="center">{setting}</Button>
+                </MenuItem>
+              ))}
+            </Menu>
+          </Box>
         </HeaderSectionWithAvatarAndSearchNotification>
       </StyledHeader>
     </AppBar>

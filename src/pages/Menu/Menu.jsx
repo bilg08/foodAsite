@@ -20,6 +20,7 @@ import { styles } from "./styles";
 import Spinner from "../../components/spinnerModal";
 import { useSpinnerDatasContext } from "../../context/spinnerContext";
 import { useAgainGetDocs } from "../../context/getDataAgainContext";
+import { NavBar } from "../../components/navbar/navbar";
 
 export const Menu = () => {
   const { foodsDatas } = useFoodsDatasContext(false);
@@ -120,6 +121,7 @@ const Food = (props) => {
   return (
     <Grid container>
       <SideBar />
+      <NavBar type="Цэс"/>
       <Grid item justifyContent="center" sx={styles.FoodsContainer}>
         <AddNewFoodBox />
         <Spinner/>
