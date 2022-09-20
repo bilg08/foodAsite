@@ -1,9 +1,11 @@
 import { collection, getDocs } from "firebase/firestore";
 import { useEffect, useState } from "react";
+import { useAgainGetDocs } from "../context/getDataAgainContext";
 import { db } from "../firebaseForThisProject/firebase";
 
 export const useGetDocsFromFireBase = (collectionName) => {
   let [data, setDatas] = useState([]);
+  const { againGetDocs, setAgainGetDocs } = useAgainGetDocs();
   const getData = async () => {
     setDatas((data = []));
     try {
@@ -20,6 +22,6 @@ export const useGetDocsFromFireBase = (collectionName) => {
 
   useEffect(() => {
     getData();
-  }, []);
+  }, [againGetDocs]);
   return [data];
 };

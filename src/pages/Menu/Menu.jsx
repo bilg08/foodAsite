@@ -9,7 +9,6 @@ import {
   Card,
   CardContent,
   CardMedia,
-  CircularProgress,
   Fab,
   Grid,
 } from "@mui/material";
@@ -20,15 +19,14 @@ import { deleteDocOfFirebase } from "../../firebaseForThisProject/deleteDoc";
 import { styles } from "./styles";
 import Spinner from "../../components/spinnerModal";
 import { useSpinnerDatasContext } from "../../context/spinnerContext";
+import { useAgainGetDocs } from "../../context/getDataAgainContext";
 
 export const Menu = () => {
   const { foodsDatas } = useFoodsDatasContext(false);
   const {
-    isSpinning,
     setIsSpinning,
-    shouldHaveToReloadPage,
-    setShouldHaveToReloadPage,
   } = useSpinnerDatasContext();
+  const {setAgainGetDocs}=useAgainGetDocs()
   const [isAddNewFoodFormOpen, setIsAddNewFoodFormOpen] = React.useState(false);
   
   const AddNewFoodBox = () => {
@@ -100,7 +98,7 @@ const Food = (props) => {
                     deleteDocOfFirebase(`foods/${food.foodName}`).then(
                       async () => {
                         await setIsSpinning(false);
-                        setShouldHaveToReloadPage(true);
+                        setAgainGetDocs(prevVal=>!prevVal)
                       }
                     );
                   }}

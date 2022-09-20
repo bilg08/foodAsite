@@ -14,11 +14,13 @@ import SearchIcon from "@mui/icons-material/Search";
 import NotificationsNoneIcon from "@mui/icons-material/NotificationsNone";
 import MenuIcon from "@mui/icons-material/Menu";
 import { useGetDocsFromFireBase } from "../../customHook/getDocsCustomHook";
+import { useAgainGetDocs } from "../../context/getDataAgainContext";
 const drawerWidth = 240;
 export const NavBar = (props) => {
   
   const [age, setAge] = React.useState("");
   const [datas, setDatas] = useGetDocsFromFireBase("orders");
+  const { pathsNavigate } = useAgainGetDocs();
   const handleChange = (event) => {
     setAge(event.target.value);
   };

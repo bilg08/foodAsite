@@ -21,13 +21,15 @@ import SettingsIcon from "@mui/icons-material/Settings";
 import RestaurantMenuIcon from "@mui/icons-material/RestaurantMenu";
 import logo from "../../asset/Logo.png";
 import { CardMedia } from "@mui/material";
+import { useAgainGetDocs } from "../../context/getDataAgainContext";
+import { useIsAdminLoggedContext } from "../../context/isAdminLoggedContext";
 
 const drawerWidth = 240;
 
 export const SideBar = (props) => {
   const { window } = props;
   const [mobileOpen, setMobileOpen] = React.useState(false);
-
+ const { navigationPath } = useIsAdminLoggedContext();
   const styles = {
     DrawerTop: (theme) => ({
       width: `80%`,
@@ -66,24 +68,25 @@ export const SideBar = (props) => {
         {[
           {
             text: "Захиалга",
-            pathName: "/",
+            pathName: `${navigationPath.orders}`,
             icon: <ListAltIcon />,
           },
           {
             text: "График",
-            pathName: "/Graphic",
+            pathName: `${navigationPath.graphic}`,
             icon: <SignalCellularAltIcon />,
           },
           {
             text: "Меню",
-            pathName: "/Menu",
+            pathName: `/home`,
             icon: <RestaurantMenuIcon />,
           },
         ].map((item, index) => (
           <Link
             style={{ textDecoration: "none" }}
             key={item.text}
-            to={item.pathName}>
+            to={item.pathName}
+          >
             <ListItem key={index} disablePadding>
               <ListItemButton sx={styles.button}>
                 <ListItemIcon sx={{ color: "white" }}>{item.icon}</ListItemIcon>

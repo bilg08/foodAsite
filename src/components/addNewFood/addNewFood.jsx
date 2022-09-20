@@ -14,12 +14,14 @@ import CloseIcon from "@mui/icons-material/Close";
 import { uploadImageToFirebase } from "../../firebaseForThisProject/storage";
 import {styles,StyledInput} from "./styles"
 import { useSpinnerDatasContext } from "../../context/spinnerContext";
+import { useAgainGetDocs } from "../../context/getDataAgainContext";
 
 
 
 export const AddNewFood = (props) => {
   const { isAddNewFoodFormOpen, setIsAddNewFoodFormOpen } = props.value;
   const [foodImg, setFoodImg] = useState("");
+  const {setAgainGetDocs}=useAgainGetDocs()
   const [isAddingData, setIsAddingData] = useState(false);
   const { isSpinning, setIsSpinning, setShouldHaveToReloadPage } =
   useSpinnerDatasContext();
@@ -52,13 +54,13 @@ export const AddNewFood = (props) => {
         await uploadImageToFirebase(foodImg, addedFoods.foodName);
         await setIsSpinning(false);
         await setAddedFoods({
-          name: "",
-          detail: "",
-          price: "",
-          img: "",
-          portion: "",
+          foodName: "",
+          foodDetail: "",
+          foodPrice: "",
+          foodPortion: "",
         });
-        setShouldHaveToReloadPage(true);
+       await setImageUrl('')
+       setAgainGetDocs((prevVal) => !prevVal);
       }
     );
   };
