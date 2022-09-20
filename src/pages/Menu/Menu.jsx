@@ -56,7 +56,6 @@ export const Menu = () => {
     );
   }
   
-  
 
 
 const Food = (props) => {
@@ -79,28 +78,35 @@ const Food = (props) => {
                 width: `90%`,
                 flexDirection: "column",
                 fontSize: `18px`,
-              }}>
-              <h2>{food.name}</h2>
-              <p>{`Порц${food.portion}`}</p>
+              }}
+            >
+              <h2>{food.foodName}</h2>
+              <p>{`Порц${food.foodPortion}`}</p>
               <Box
                 sx={{
                   width: `100%`,
                   display: "flex",
                   justifyContent: "space-around",
                   alignItems: "center",
-                }}>
-                <h3>{food.price}₮</h3>
+                }}
+              >
+                <h3>{food.foodPrice}₮</h3>
                 <Fab
                   onClick={async () => {
-                    setIsSpinning(true)
-                    await deleteFileFromFirebaseStorage(`foods/${food.name}`);
-                    deleteDocOfFirebase(`foods/${food.name}`).then(async() => {
-                      await setIsSpinning(false);
-                      setShouldHaveToReloadPage(true)
-                    });
+                    setIsSpinning(true);
+                    await deleteFileFromFirebaseStorage(
+                      `foods/${food.foodName}`
+                    );
+                    deleteDocOfFirebase(`foods/${food.foodName}`).then(
+                      async () => {
+                        await setIsSpinning(false);
+                        setShouldHaveToReloadPage(true);
+                      }
+                    );
                   }}
                   sx={styles.addFoodBtn}
-                  size="medium">
+                  size="medium"
+                >
                   <RemoveIcon />
                 </Fab>
               </Box>
@@ -120,7 +126,7 @@ const Food = (props) => {
         <AddNewFoodBox />
         <Spinner/>
         {foodsDatas.map((food) => {
-          return <Food key={food.name} value={food} />;
+          return <Food key={food.foodName} value={food} />;
         })}
       </Grid>
       <AddNewFood value={{ isAddNewFoodFormOpen, setIsAddNewFoodFormOpen }} />

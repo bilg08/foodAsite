@@ -26,7 +26,6 @@ import { useGetDatasFromArrayofDoc } from "../../customHook/getDatasFromDocsArra
 export const OrderPage = () => {
   const newOrders = useGetDatasFromArrayofDoc("ThisDayOrders");
   const shippedOrders = useGetDatasFromArrayofDoc("shippedOrders");
-console.log(shippedOrders)
 
   const NewOrders = () => {
     const changeOrderTypeAsShipped = async (orderedDate, orderUid, orderData) => {
@@ -164,7 +163,6 @@ console.log(shippedOrders)
                       </Badge>
                     </Grid>
                     {shippedOrder.orders.map((shippedOrderOrders) => {
-                      console.log(shippedOrderOrders.orderedFoods);
                       return (
                         <Accordion
                           key={`shippedOrderOrders${shippedOrderOrders}`}

@@ -1,1 +1,0 @@
-hereglecg zurag oruulna

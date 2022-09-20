@@ -15,7 +15,6 @@ export const uploadImageToFirebase = async (
         img: url,
       }).then(async() => {
         const a = await getDoc(doc(db, `foods/${foodName}`)); 
-          console.log(a.data())
       })
     });
   });
