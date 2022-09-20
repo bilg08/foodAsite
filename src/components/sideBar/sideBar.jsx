@@ -17,11 +17,9 @@ import Typography from "@mui/material/Typography";
 import { Link } from "react-router-dom";
 import ListAltIcon from "@mui/icons-material/ListAlt";
 import SignalCellularAltIcon from "@mui/icons-material/SignalCellularAlt";
-import SettingsIcon from "@mui/icons-material/Settings";
 import RestaurantMenuIcon from "@mui/icons-material/RestaurantMenu";
 import logo from "../../asset/Logo.png";
 import { CardMedia } from "@mui/material";
-import { useAgainGetDocs } from "../../context/getDataAgainContext";
 import { useIsAdminLoggedContext } from "../../context/isAdminLoggedContext";
 
 const drawerWidth = 240;
@@ -29,7 +27,6 @@ const drawerWidth = 240;
 export const SideBar = (props) => {
   const { window } = props;
   const [mobileOpen, setMobileOpen] = React.useState(false);
- const { navigationPath } = useIsAdminLoggedContext();
   const styles = {
     DrawerTop: (theme) => ({
       width: `80%`,
@@ -68,17 +65,17 @@ export const SideBar = (props) => {
         {[
           {
             text: "Захиалга",
-            pathName: `${navigationPath.orders}`,
+            pathName: `/Orders`,
             icon: <ListAltIcon />,
           },
           {
             text: "График",
-            pathName: `${navigationPath.graphic}`,
+            pathName: `/Graphic`,
             icon: <SignalCellularAltIcon />,
           },
           {
             text: "Меню",
-            pathName: `/home`,
+            pathName: `/Menu`,
             icon: <RestaurantMenuIcon />,
           },
         ].map((item, index) => (

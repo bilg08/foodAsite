@@ -12,9 +12,8 @@ import Grid from "@mui/material/Grid";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-import { SignInWithFirebase } from '../../firebaseForThisProject/signIn';
 import { useIsAdminLoggedContext } from "../../context/isAdminLoggedContext";
-import { useNavigate } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import { auth } from "../../firebaseForThisProject/firebase";
 import { signInWithEmailAndPassword } from "firebase/auth";
 function Copyright(props) {
@@ -38,17 +37,18 @@ function Copyright(props) {
 const theme = createTheme();
 
 export default function SignInSide() {
-  // const { navigationPath } = useIsAdminLoggedContext();
-  const navigate=useNavigate()
+  const { setIsAdminLogged } = useIsAdminLoggedContext();
+  const navigate = useNavigate()
+  
+  //Function for user login
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    
     signInWithEmailAndPassword(auth,data.get("email"), data.get("password"))
       .then((userCredential) => {
         const user = userCredential.user;
-
-        navigate('/')
+        setIsAdminLogged(true)
+        navigate('/Menu')
       })
       .catch((error) => {
         const errorCode = error.code;
@@ -56,7 +56,7 @@ export default function SignInSide() {
         console.log(errorCode, errorMessage);
       });
   };
-
+//******************************************************************************//
   return (
     <ThemeProvider theme={theme}>
       <Grid container component="main" sx={{ height: "100vh" }}>
@@ -85,8 +85,7 @@ export default function SignInSide() {
               display: "flex",
               flexDirection: "column",
               alignItems: "center",
-            }}
-          >
+            }}>
             <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
               <LockOutlinedIcon />
             </Avatar>
@@ -97,8 +96,7 @@ export default function SignInSide() {
               component="form"
               noValidate
               onSubmit={handleSubmit}
-              sx={{ mt: 1 }}
-            >
+              sx={{ mt: 1 }}>
               <TextField
                 margin="normal"
                 required
@@ -127,20 +125,14 @@ export default function SignInSide() {
                 type="submit"
                 fullWidth
                 variant="contained"
-                sx={{ mt: 3, mb: 2 }}
-              >
+                sx={{ mt: 3, mb: 2 }}>
                 Sign In
               </Button>
               <Grid container>
-                <Grid item xs>
-                  <Link href="#" variant="body2">
-                    Forgot password?
-                  </Link>
-                </Grid>
                 <Grid item>
-                  <Link href="#" variant="body2">
-                    {"Don't have an account? Sign Up"}
-                  </Link>
+                  <NavLink style={{ textDecoration: 'none', color:'black' }} to="/SignUp" variant="body2">
+                    {"Та бүртгэлгүй юу? "}
+                  </NavLink>
                 </Grid>
               </Grid>
               <Copyright sx={{ mt: 5 }} />
