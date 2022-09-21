@@ -33,37 +33,36 @@ export const AddNewFood = (props) => {
     foodPortion: "",
   });
   const [ImageUrl, setImageUrl] = useState();
-  const [FoodIngredients, setFoodIngredients] = useState([]);
-  const foodIngredient=useRef(null)
+  // const [FoodIngredients, setFoodIngredients] = useState([]);
+  // const foodIngredient=useRef(null)
   const takeFoodDetail = (e) => {
     setFoodform({ ...foodform, [e.target.name]: e.target.value });
   };
-  const addFoodIngredient = () => {
-    const ingredientsFromAdmin = foodIngredient.current.value;
-    setFoodIngredients(prevVal => {
-      let prevValAcopy = prevVal;
-      const isExist = prevValAcopy.indexOf(ingredientsFromAdmin);
-      if (ingredientsFromAdmin != "") {
-          if (isExist === -1) {
-            prevValAcopy = [...prevValAcopy, ingredientsFromAdmin];
-          } else if (isExist != -1) {
-            prevValAcopy.splice(isExist, 1);
-          } 
-      }
-      return(prevValAcopy)
-    })
-  }
-  const deleteIngredient = (ingredient) => {
-    console.log(ingredient)
-    setFoodIngredients((prevVal) => {
-      let prevValAcopy = prevVal;
-      const indexOfTheIngredient = prevValAcopy.indexOf(ingredient);
-      console.log(FoodIngredients,'kk1')
-      prevValAcopy.splice(indexOfTheIngredient, 1);
-      return prevValAcopy;
-    });
-  }
-  useEffect(()=>console.log(FoodIngredients,'kk'),[FoodIngredients])
+  // const addFoodIngredient = () => {
+  //   const ingredientsFromAdmin = foodIngredient.current.value;
+  //   setFoodIngredients(prevVal => {
+  //     let prevValAcopy = prevVal;
+  //     const isExist = prevValAcopy.indexOf(ingredientsFromAdmin);
+  //     if (ingredientsFromAdmin != "") {
+  //         if (isExist === -1) {
+  //           prevValAcopy = [...prevValAcopy, ingredientsFromAdmin];
+  //         } else if (isExist != -1) {
+  //           prevValAcopy.splice(isExist, 1);
+  //         } 
+  //     }
+  //     return(prevValAcopy)
+  //   })
+  // }
+  // const deleteIngredient = (ingredient) => {
+  //   console.log(ingredient)
+  //   setFoodIngredients((prevVal) => {
+  //     let prevValAcopy = prevVal;
+  //     const indexOfTheIngredient = prevValAcopy.indexOf(ingredient);
+  //     console.log(FoodIngredients,'kk1')
+  //     prevValAcopy.splice(indexOfTheIngredient, 1);
+  //     return prevValAcopy;
+  //   });
+  // }
   const formDetailsItems = [
     { type: "Хоолны нэр", inputName: "foodName" },
     { type: "Дэлгэрэнгүй", inputName: "foodDetail" },
@@ -167,20 +166,21 @@ export const AddNewFood = (props) => {
               );
             })}
           </Grid>
-        </Grid>
-        <Grid item sx={styles.FoodIngredients}>
-          <Grid item sx={styles.FoodIngredientsAddingSection}>
-            <h1>Хоолны орц</h1>
+        {/* </Grid> */}
+          {/* 
+         <h1>Хоолны орц</h1>
             <TextField
               inputRef={foodIngredient}
               placeholder="Та орцоо оруулна уу?"
-            />
+            /><Grid item sx={styles.FoodIngredients}>
+          <Grid item sx={styles.FoodIngredientsAddingSection}>
+           
             <Button variant="contained" onClick={() => addFoodIngredient()}>
               Нэмэх
             </Button>
           </Grid>
-          <Grid item sx={styles.showFoodIngredientsAdminAdded}>
-              {FoodIngredients.map((ingredient) => {
+          <Grid item sx={styles.showFoodIngredientsAdminAdded}> */}
+              {/* {FoodIngredients.map((ingredient) => {
                 return (
                   <>
                     <p>{ingredient}</p>
@@ -192,7 +192,7 @@ export const AddNewFood = (props) => {
                   </>
                 );
               })}
-          </Grid>
+          </Grid> */}
         </Grid>
       </Grid>
     </Backdrop>
