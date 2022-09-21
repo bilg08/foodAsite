@@ -12,20 +12,17 @@ import { useState } from "react";
 import { setDocToFirebase } from "../../firebaseForThisProject/setDoc";
 import CloseIcon from "@mui/icons-material/Close";
 import { uploadImageToFirebase } from "../../firebaseForThisProject/storage";
-import {styles,StyledInput} from "./styles"
+import { styles, StyledInput } from "./styles";
 import { useSpinnerDatasContext } from "../../context/spinnerContext";
 import { useAgainGetDocs } from "../../context/getDataAgainContext";
 
-
-
 export const AddNewFood = (props) => {
-  const { isAddNewFoodFormOpen, setIsAddNewFoodFormOpen } = props.value;
   const [foodImg, setFoodImg] = useState("");
-  const {setAgainGetDocs}=useAgainGetDocs()
-  const [isAddingData, setIsAddingData] = useState(false);
   const { isSpinning, setIsSpinning, setShouldHaveToReloadPage } =
-  useSpinnerDatasContext();
- 
+    useSpinnerDatasContext();
+  const [isAddingData, setIsAddingData] = useState(false);
+  const { setAgainGetDocs } = useAgainGetDocs();
+  const { isAddNewFoodFormOpen, setIsAddNewFoodFormOpen } = props.value;
   const [addedFoods, setAddedFoods] = useState({
     foodName: "",
     foodDetail: "",
@@ -44,11 +41,9 @@ export const AddNewFood = (props) => {
     { type: "Порц", inputName: "foodPortion" },
   ];
 
-
-
   const takeUserOrder = async () => {
     setIsSpinning(true);
-    setIsAddNewFoodFormOpen(false)
+    setIsAddNewFoodFormOpen(false);
     await setDocToFirebase(`foods/${addedFoods.foodName}`, addedFoods).then(
       async () => {
         await uploadImageToFirebase(foodImg, addedFoods.foodName);
@@ -59,26 +54,25 @@ export const AddNewFood = (props) => {
           foodPrice: "",
           foodPortion: "",
         });
-       await setImageUrl('')
-       setAgainGetDocs((prevVal) => !prevVal);
+        await setImageUrl("");
+        setAgainGetDocs((prevVal) => !prevVal);
       }
     );
   };
 
   function takeFoodImgUrlToShowImgInAddNewFoodImgSection(e) {
-      var file = e.target.files[0];
-      var reader = new FileReader();
-      reader.onload = function (event) {
-        setImageUrl(event.target.result);
-      };
-      reader.readAsDataURL(file);
-      setFoodImg((prevVal) => {
-        let prevValACopy = prevVal;
-        prevValACopy = e.target.files[0];
-        return (prevVal = prevValACopy);
-      });
+    var file = e.target.files[0];
+    var reader = new FileReader();
+    reader.onload = function (event) {
+      setImageUrl(event.target.result);
+    };
+    reader.readAsDataURL(file);
+    setFoodImg((prevVal) => {
+      let prevValACopy = prevVal;
+      prevValACopy = e.target.files[0];
+      return (prevVal = prevValACopy);
+    });
   }
-
 
   return (
     <Backdrop
@@ -89,8 +83,7 @@ export const AddNewFood = (props) => {
         justifyContent: "center",
         alignItems: "center",
       }}
-      open={true}
-    >
+      open={true}>
       <Grid container sx={styles.addNewFoodContainer}>
         <Grid item sx={styles.AddNewFoodHeader}>
           <Button onClick={() => setIsAddNewFoodFormOpen(false)}>
@@ -102,28 +95,27 @@ export const AddNewFood = (props) => {
         <Grid item sx={styles.FoodFormContainer}>
           <Grid item sx={styles.FoodFormImageContainer}>
             <Box sx={styles.FoodFormImage}>
-                <CardMedia
-                  sx={{ borderRadius: "100%" }}
-                  src={ImageUrl}
-                  component="img"
+              <CardMedia
+                sx={{ borderRadius: "100%" }}
+                src={ImageUrl}
+                component="img"
+              />
+              <label
+                sx={{
+                  border: `1px solid red`,
+                  display: `inline-block`,
+                  padding: `6px 12px`,
+                  cursor: `pointer`,
+                }}>
+                <Input
+                  sx={{ display: "none" }}
+                  onChange={(e) =>
+                    takeFoodImgUrlToShowImgInAddNewFoodImgSection(e)
+                  }
+                  type="file"
                 />
-                <label
-                  sx={{
-                    border: `1px solid red`,
-                    display: `inline-block`,
-                    padding: `6px 12px`,
-                    cursor: `pointer`,
-                  }}
-                >
-                  <Input
-                    sx={{ display: "none" }}
-                    onChange={(e) =>
-                      takeFoodImgUrlToShowImgInAddNewFoodImgSection(e)
-                    }
-                    type="file"
-                  />
-                  <CameraAltIcon sx={styles.CameraIcon} />
-                </label>
+                <CameraAltIcon sx={styles.CameraIcon} />
+              </label>
             </Box>
           </Grid>
           <Grid item sx={styles.FoodForm}>
@@ -131,8 +123,7 @@ export const AddNewFood = (props) => {
               return (
                 <Box
                   key={`${formDetailsItem.type}+${index}`}
-                  sx={{ display: "flex", flexDirection: "column" }}
-                >
+                  sx={{ display: "flex", flexDirection: "column" }}>
                   <label style={{ fontSize: `16px`, lineHeight: "24px" }}>
                     {formDetailsItem.type}
                   </label>

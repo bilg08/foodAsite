@@ -82,11 +82,17 @@ export const NavBar = (props) => {
         display: "block",
       },
     }),
+    NavbarContainer: (theme) => ({
+      width: { sm: `calc(100% - ${drawerWidth}px)` },
+      [theme.breakpoints.down('sm')]: {
+        width:`100%`
+      }
+    }),
   };
   return (
     <AppBar
       position="fixed"
-      sx={{ width: `calc(100% - ${drawerWidth}px)`, ml: `${drawerWidth}px` }}>
+      sx={styles.NavbarContainer}>
       <StyledHeader>
         <IconButton
           color="inherit"
@@ -103,13 +109,8 @@ export const NavBar = (props) => {
             gap: `50px`,
           }}>
           <h2>{props.type}</h2>
-          <Box></Box>
         </Box>
         <HeaderSectionWithAvatarAndSearchNotification>
-          <HeaderSectionWithAvatar>
-            <SearchIcon />
-            <NotificationsNoneIcon />
-          </HeaderSectionWithAvatar>
           <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>

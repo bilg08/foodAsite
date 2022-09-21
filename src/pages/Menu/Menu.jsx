@@ -121,10 +121,10 @@ const Food = (props) => {
   return (
     <Grid container>
       <SideBar />
-      <NavBar type="Цэс"/>
+      <NavBar type="Цэс" />
       <Grid item justifyContent="center" sx={styles.FoodsContainer}>
         <AddNewFoodBox />
-        <Spinner/>
+        <Spinner />
         {foodsDatas.map((food) => {
           return <Food key={food.foodName} value={food} />;
         })}

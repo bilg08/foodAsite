@@ -18,6 +18,7 @@ import {
   Legend,
 } from "chart.js";
 import { Bar } from "react-chartjs-2";
+import { NavBar } from "../../components/navbar/navbar";
 
 
 ChartJS.register(
@@ -62,6 +63,7 @@ export const Graphic = () => {
   return (
     <Grid container>
       <SideBar />
+      <NavBar type="График"/>
       <Grid item sx={styles.GraphicComponentContainer}>
         <Grid sx={styles.GraphicHeader}>
           <Grid item>

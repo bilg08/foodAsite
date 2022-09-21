@@ -14,7 +14,6 @@ import {
 import InventoryIcon from "@mui/icons-material/Inventory";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { setDocToFirebase } from "../../firebaseForThisProject/setDoc";
-import { deleteDocOfFirebase } from "../../firebaseForThisProject/deleteDoc";
 import {
   styles,
   AOrdersHeader,
@@ -23,21 +22,46 @@ import {
   NewOrder,
 } from "./styles.jsx";
 import { useGetDatasFromArrayofDoc } from "../../customHook/getDatasFromDocsArray";
+import { NavBar } from "../../components/navbar/navbar";
+import { useAgainGetDocs } from "../../context/getDataAgainContext";
+import { deleteDocOfFirebase } from "../../firebaseForThisProject/deleteDoc";
 export const OrderPage = () => {
   const newOrders = useGetDatasFromArrayofDoc("ThisDayOrders");
   const shippedOrders = useGetDatasFromArrayofDoc("shippedOrders");
-
+  const packegedOrders = useGetDatasFromArrayofDoc("packegedOrders");
+  const { againGetDocs, setAgainGetDocs } = useAgainGetDocs();
   const NewOrders = () => {
     const changeOrderTypeAsShipped = async (orderedDate, orderUid, orderData) => {
-      // await deleteDocOfFirebase(
-      //   `foodsOrders/${orderedDate}/shippedOrders/${orderUid}`
-      // );
       await setDocToFirebase(
         `foodsOrders/${orderedDate}/shippedOrders/${orderUid}`,
         orderData
-      );
+      ).then(()=>{setAgainGetDocs(prevVal=>!prevVal)});
       
     }
+    const changeOrderTypeAsPackaged = async (
+      orderedDate,
+      orderUid,
+      orderData
+    ) => {
+            const changedOrderData = {
+              ...orderData,
+              isOrdered: false,
+              isShipped: true,
+            };
+   await deleteDocOfFirebase(
+     `foodsOrders/${orderedDate}/ThisDayOrders/${orderUid}`
+   );
+      await setDocToFirebase(
+        `foodsOrders/${orderedDate}/packegedOrders/${orderUid}`,
+        changedOrderData
+      );
+      await setDocToFirebase(
+        `foodsOrders/${orderedDate}/ThisDayOrders/${orderUid}`,
+        changedOrderData
+      ).then(() => {
+        setAgainGetDocs((prevVal) => !prevVal);
+      });
+    };
 
     return (
       <Grid sx={styles.newOrdersContainer}>
@@ -68,35 +92,30 @@ export const OrderPage = () => {
                           <AccordionSummary
                             expandIcon={<ExpandMoreIcon />}
                             aria-controls="panel1a-content"
-                            id="panel1a-header"
-                          >
+                            id="panel1a-header">
                             <Typography
                               sx={{
                                 display: "flex",
                                 width: `100%`,
                                 justifyContent: `space-around`,
-                              }}
-                            >
+                              }}>
                               <p>{newOrderOrders.when}</p>
                             </Typography>
                           </AccordionSummary>
-                          <AccordionDetails>
+                          <AccordionDetails
+                            sx={{
+                              display: "flex",
+                              justifyContent: "center",
+                              alignItems: "center",
+                              flexFlow: "column",
+                            }}>
                             <Typography
-                              sx={{
-                                display: "flex",
-                                flexDirection: "column",
-                                width: `100%`,
-                              }}
-                            ></Typography>
-                            <Typography
-                              sx={{ display: "flex", alignItems: "center" }}
-                            >
+                              sx={{ display: "flex", alignItems: "center" }}>
                               <LocationOnIcon sx={{ color: "#66B60F" }} />
                               <p>{newOrderOrders.destination}</p>
                             </Typography>
                             <Typography
-                              sx={{ display: "flex", alignItems: "center" }}
-                            >
+                              sx={{ display: "flex", alignItems: "center" }}>
                               <PhoneIcon sx={{ color: "#66B60F" }} />
                               <p>{newOrderOrders.phoneNumber}</p>
                             </Typography>
@@ -115,9 +134,30 @@ export const OrderPage = () => {
                                 borderRadius: `10px`,
                                 color: "white",
                                 height: `32px`,
-                              }}
-                            >
+                              }}>
                               Хүргэгдсэн
+                            </Button>
+                            <Button
+                              disabled={newOrderOrders.isShipped}
+                              onClick={() => {
+                                changeOrderTypeAsPackaged(
+                                  newOrder.date,
+                                  newOrderOrders.uid,
+                                  newOrderOrders
+                                );
+                              }}
+                              sx={{
+                                display:
+                                  newOrderOrders.isOrdered === true
+                                    ? "none"
+                                    : "block",
+                                width: `108px`,
+                                background: " #66B60F",
+                                borderRadius: `10px`,
+                                color: "white",
+                                height: `32px`,
+                              }}>
+                              Савлагдсан
                             </Button>
                           </AccordionDetails>
                         </Accordion>
@@ -170,58 +210,31 @@ export const OrderPage = () => {
                             borderRadius: `10px`,
                             border: `1px solid #DFE0EB`,
                             borderRadius: `10px`,
-                          }}
-                        >
+                          }}>
                           <AccordionSummary
                             expandIcon={<ExpandMoreIcon />}
                             aria-controls="panel1a-content"
-                            id="panel1a-header"
-                          >
+                            id="panel1a-header">
                             <Typography
                               sx={{
                                 display: "flex",
                                 width: `100%`,
                                 justifyContent: `space-around`,
-                              }}
-                            >
+                              }}>
                               <p>{shippedOrderOrders.when}</p>
                             </Typography>
                           </AccordionSummary>
                           <AccordionDetails>
+                                <Typography
+                                  sx={{
+                                    display: "flex",
+                                    alignItems: "center",
+                                  }}>
+                                  <LocationOnIcon sx={{ color: "#66B60F" }} />
+                                  <p>{shippedOrderOrders.destination}</p>
+                                </Typography>                           
                             <Typography
-                              sx={{
-                                display: "flex",
-                                flexDirection: "column",
-                              }}
-                            >
-                              {/* {shippedOrderOrders.orderedFoods.map(
-                                (orderedFood) => {
-                                  return (
-                                    <ul
-                                      key={`orderedFood${orderedFood}`}
-                                      sx={{
-                                        display: "flex",
-                                        justifyContent: "space-around",
-                                      }}
-                                    >
-                                      <li sx={{ listStyle: "none" }}>
-                                        {Object.keys(orderedFood)}:
-                                        {Object.values(orderedFood)}
-                                      </li>
-                                    </ul>
-                                  );
-                                }
-                              )} */}
-                            </Typography>
-                            <Typography
-                              sx={{ display: "flex", alignItems: "center" }}
-                            >
-                              <LocationOnIcon sx={{ color: "#66B60F" }} />
-                              <p>{shippedOrderOrders.destination}</p>
-                            </Typography>
-                            <Typography
-                              sx={{ display: "flex", alignItems: "center" }}
-                            >
+                              sx={{ display: "flex", alignItems: "center" }}>
                               <PhoneIcon sx={{ color: "#66B60F" }} />
                               <p>{shippedOrderOrders.phoneNumber}</p>
                             </Typography>
@@ -237,14 +250,129 @@ export const OrderPage = () => {
     );
   };
 
+  const PackagedOrders = () => {
 
+    const changeOrderTypeAsShipped = async (orderedDate, orderUid, orderData) => {
+      const changedOrderData = { ...orderData, isOrdered: true,isShipped:true }
+    await deleteDocOfFirebase(
+      `foodsOrders/${orderedDate}/packegedOrders/${orderUid}`
+      )
+      await deleteDocOfFirebase(
+        `foodsOrders/${orderedDate}/ThisDayOrders/${orderUid}`,
+      );
+      await setDocToFirebase(
+        `foodsOrders/${orderedDate}/ThisDayOrders/${orderUid}`,changedOrderData
+      );
+    await setDocToFirebase(
+      `foodsOrders/${orderedDate}/shippedOrders/${orderUid}`,
+      changedOrderData
+    ).then(() => {
+      setAgainGetDocs((prevVal) => !prevVal);
+    });
+  };
+  return (
+    <Grid sx={styles.shippedOrdersContainer}>
+      <AOrdersHeader>
+        <h3>Савлагдсан захиалга</h3>
+      </AOrdersHeader>
+      <OrdersContainer>
+        {packegedOrders.length <= 0 && packegedOrders.length === undefined
+          ? undefined
+          : packegedOrders.map((packegedOrder, index) => {
+              return (
+                <NewOrder key={`packegedOrder${index}`}>
+                  <Grid
+                    sx={{
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "space-around",
+                    }}>
+                    <p>{packegedOrder.date}</p>
+                    <Badge
+                      badgeContent={
+                        packegedOrder.orders.length === null||packegedOrder===undefined
+                          ? 0
+                          : packegedOrder.orders.length
+                      }
+                      color="primary">
+                      <InventoryIcon />
+                    </Badge>
+                  </Grid>
+                  {packegedOrder.orders.map((packegedOrderOrders) => {
+                    console.log(packegedOrderOrders)
+                    return (
+                      <Accordion
+                        key={`shippedOrderOrders${packegedOrderOrders}`}
+                        sx={{
+                          borderRadius: `10px`,
+                          border: `1px solid #DFE0EB`,
+                          borderRadius: `10px`,
+                        }}>
+                        <AccordionSummary
+                          expandIcon={<ExpandMoreIcon />}
+                          aria-controls="panel1a-content"
+                          id="panel1a-header">
+                          <Typography
+                            sx={{
+                              display: "flex",
+                              width: `100%`,
+                              justifyContent: `space-around`,
+                            }}>
+                            <p>{packegedOrderOrders.when}</p>
+                          </Typography>
+                        </AccordionSummary>
+                        <AccordionDetails>
+                          <Typography
+                            sx={{
+                              display: "flex",
+                              alignItems: "center",
+                            }}>
+                            <LocationOnIcon sx={{ color: "#66B60F" }} />
+                            <p>{packegedOrderOrders.destination}</p>
+                          </Typography>
+                          <Typography
+                            sx={{ display: "flex", alignItems: "center" }}>
+                            <PhoneIcon sx={{ color: "#66B60F" }} />
+                            <p>{packegedOrderOrders.phoneNumber}</p>
+                          </Typography>
+                          <Button
+                            // disabled={newOrderOrders.isOrdered}
+                            onClick={() =>
+                              changeOrderTypeAsShipped(
+                                packegedOrder.date,
+                                packegedOrderOrders.uid,
+                                packegedOrderOrders
+                              )
+                            }
+                            sx={{
+                              width: `108px`,
+                              background: " #66B60F",
+                              borderRadius: `10px`,
+                              color: "white",
+                              height: `32px`,
+                            }}>
+                            Хүргэгдсэн
+                          </Button>
+                        </AccordionDetails>
+                      </Accordion>
+                    );
+                  })}
+                </NewOrder>
+              );
+            })}
+      </OrdersContainer>
+    </Grid>
+  );
+};
 
   
   return (
     <Grid container>
       <SideBar />
+      <NavBar type="Захиалга" />
       <Grid item container sx={styles.AllOrdersContainer}>
         <NewOrders />
+        <PackagedOrders />
         <ShippedOrders />
       </Grid>
     </Grid>
