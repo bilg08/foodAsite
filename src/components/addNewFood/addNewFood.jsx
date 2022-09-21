@@ -5,6 +5,7 @@ import {
   CardMedia,
   Grid,
   Input,
+  TextField,
   Typography,
 } from "@mui/material";
 import CameraAltIcon from "@mui/icons-material/CameraAlt";
@@ -15,6 +16,8 @@ import { uploadImageToFirebase } from "../../firebaseForThisProject/storage";
 import { styles, StyledInput } from "./styles";
 import { useSpinnerDatasContext } from "../../context/spinnerContext";
 import { useAgainGetDocs } from "../../context/getDataAgainContext";
+import { useRef } from "react";
+import { useEffect } from "react";
 
 export const AddNewFood = (props) => {
   const [foodImg, setFoodImg] = useState("");
@@ -23,17 +26,44 @@ export const AddNewFood = (props) => {
   const [isAddingData, setIsAddingData] = useState(false);
   const { setAgainGetDocs } = useAgainGetDocs();
   const { isAddNewFoodFormOpen, setIsAddNewFoodFormOpen } = props.value;
-  const [addedFoods, setAddedFoods] = useState({
+  const [foodform, setFoodform] = useState({
     foodName: "",
     foodDetail: "",
     foodPrice: "",
     foodPortion: "",
   });
   const [ImageUrl, setImageUrl] = useState();
-  const takeUserInput = (e) => {
-    setAddedFoods({ ...addedFoods, [e.target.name]: e.target.value });
+  const [FoodIngredients, setFoodIngredients] = useState([]);
+  const foodIngredient=useRef(null)
+  const takeFoodDetail = (e) => {
+    setFoodform({ ...foodform, [e.target.name]: e.target.value });
   };
-
+  const addFoodIngredient = () => {
+    const ingredientsFromAdmin = foodIngredient.current.value;
+    setFoodIngredients(prevVal => {
+      let prevValAcopy = prevVal;
+      const isExist = prevValAcopy.indexOf(ingredientsFromAdmin);
+      if (ingredientsFromAdmin != "") {
+          if (isExist === -1) {
+            prevValAcopy = [...prevValAcopy, ingredientsFromAdmin];
+          } else if (isExist != -1) {
+            prevValAcopy.splice(isExist, 1);
+          } 
+      }
+      return(prevValAcopy)
+    })
+  }
+  const deleteIngredient = (ingredient) => {
+    console.log(ingredient)
+    setFoodIngredients((prevVal) => {
+      let prevValAcopy = prevVal;
+      const indexOfTheIngredient = prevValAcopy.indexOf(ingredient);
+      console.log(FoodIngredients,'kk1')
+      prevValAcopy.splice(indexOfTheIngredient, 1);
+      return prevValAcopy;
+    });
+  }
+  useEffect(()=>console.log(FoodIngredients,'kk'),[FoodIngredients])
   const formDetailsItems = [
     { type: "Хоолны нэр", inputName: "foodName" },
     { type: "Дэлгэрэнгүй", inputName: "foodDetail" },
@@ -44,11 +74,11 @@ export const AddNewFood = (props) => {
   const takeUserOrder = async () => {
     setIsSpinning(true);
     setIsAddNewFoodFormOpen(false);
-    await setDocToFirebase(`foods/${addedFoods.foodName}`, addedFoods).then(
+    await setDocToFirebase(`foods/${foodform.foodName}`, foodform).then(
       async () => {
-        await uploadImageToFirebase(foodImg, addedFoods.foodName);
+        await uploadImageToFirebase(foodImg, foodform.foodName);
         await setIsSpinning(false);
-        await setAddedFoods({
+        await setFoodform({
           foodName: "",
           foodDetail: "",
           foodPrice: "",
@@ -128,9 +158,9 @@ export const AddNewFood = (props) => {
                     {formDetailsItem.type}
                   </label>
                   <StyledInput
-                    value={addedFoods[formDetailsItem.inputName]}
+                    value={foodform[formDetailsItem.inputName]}
                     placeholder="Энд бичнэ үү"
-                    onChange={(e) => takeUserInput(e)}
+                    onChange={(e) => takeFoodDetail(e)}
                     name={formDetailsItem.inputName}
                   />
                 </Box>
@@ -138,7 +168,32 @@ export const AddNewFood = (props) => {
             })}
           </Grid>
         </Grid>
-        <Grid item sx={styles.FoodIngredients}></Grid>
+        <Grid item sx={styles.FoodIngredients}>
+          <Grid item sx={styles.FoodIngredientsAddingSection}>
+            <h1>Хоолны орц</h1>
+            <TextField
+              inputRef={foodIngredient}
+              placeholder="Та орцоо оруулна уу?"
+            />
+            <Button variant="contained" onClick={() => addFoodIngredient()}>
+              Нэмэх
+            </Button>
+          </Grid>
+          <Grid item sx={styles.showFoodIngredientsAdminAdded}>
+              {FoodIngredients.map((ingredient) => {
+                return (
+                  <>
+                    <p>{ingredient}</p>
+                    <Button
+                      onClick={() => deleteIngredient(ingredient)}
+                      variant="contained">
+                      -
+                    </Button>
+                  </>
+                );
+              })}
+          </Grid>
+        </Grid>
       </Grid>
     </Backdrop>
   );

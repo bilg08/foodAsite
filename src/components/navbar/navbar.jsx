@@ -29,7 +29,7 @@ export const NavBar = (props) => {
   const [anchorElUser, setAnchorElUser] = React.useState(null);
   const navigate = useNavigate();
   const { signOutFromWebSite } = useIsAdminLoggedContext();
-
+  const { handleDrawerToggle, whatPage } = props.value;
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
   };
@@ -90,11 +90,10 @@ export const NavBar = (props) => {
     }),
   };
   return (
-    <AppBar
-      position="fixed"
-      sx={styles.NavbarContainer}>
+    <AppBar position="fixed" sx={styles.NavbarContainer}>
       <StyledHeader>
         <IconButton
+          onClick={() => handleDrawerToggle()}
           color="inherit"
           aria-label="open drawer"
           edge="start"
@@ -108,7 +107,7 @@ export const NavBar = (props) => {
             justifyContent: "space-between",
             gap: `50px`,
           }}>
-          <h2>{props.type}</h2>
+          <h2>{whatPage}</h2>
         </Box>
         <HeaderSectionWithAvatarAndSearchNotification>
           <Box sx={{ flexGrow: 0 }}>
@@ -125,10 +124,14 @@ export const NavBar = (props) => {
               onClose={handleCloseUserMenu}>
               {settings.map((setting) => (
                 <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                  <Button onClick={async() => {
-                    await signOutFromWebSite();
-                    navigate('/')
-                  }} textAlign="center">{setting}</Button>
+                  <Button
+                    onClick={async () => {
+                      await signOutFromWebSite();
+                      navigate("/");
+                    }}
+                    textAlign="center">
+                    {setting}
+                  </Button>
                 </MenuItem>
               ))}
             </Menu>

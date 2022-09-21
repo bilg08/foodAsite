@@ -368,8 +368,7 @@ export const OrderPage = () => {
   
   return (
     <Grid container>
-      <SideBar />
-      <NavBar type="Захиалга" />
+      <SideBar whatPage={"Захиалга"} />
       <Grid item container sx={styles.AllOrdersContainer}>
         <NewOrders />
         <PackagedOrders />

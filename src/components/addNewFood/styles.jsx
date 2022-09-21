@@ -63,6 +63,26 @@ export const styles = {
     width: `100%`,
     height: `40%`,
     background: "red",
+    display: "flex",
+    alignItems: "center",
+  }),
+  FoodIngredientsAddingSection: (theme) => ({
+    width: `50%`,
+    height: `100%`,
+    background: "green",
+    display: "flex",
+    alignItems: "center",
+    flexFlow: "column",
+  }),
+  showFoodIngredientsAdminAdded: (theme) => ({
+    width: `50%`,
+    height: `100%`,
+    background: "yellow",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: 'center',
+    flexWrap: 'wrap',
+    gap:`2%`
   }),
   CameraIcon: (theme) => ({
     padding: `5px`,
@@ -79,7 +99,6 @@ export const styles = {
       flexDirection: "column",
     },
   }),
-  
 };
 
 export const StyledInput = styled(TextField)((theme) => ({

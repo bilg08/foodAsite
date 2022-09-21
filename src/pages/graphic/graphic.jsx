@@ -62,8 +62,7 @@ export const Graphic = () => {
   };
   return (
     <Grid container>
-      <SideBar />
-      <NavBar type="График"/>
+      <SideBar whatPage={"График"} />
       <Grid item sx={styles.GraphicComponentContainer}>
         <Grid sx={styles.GraphicHeader}>
           <Grid item>
@@ -81,7 +80,7 @@ export const Graphic = () => {
           <Grid item>
             <Card sx={styles.card}>
               <h2>Хүргэсэн</h2>
-              <h1>{allOrdersDetails.shippedOrderslength }</h1>
+              <h1>{allOrdersDetails.shippedOrderslength}</h1>
             </Card>
           </Grid>
           <Grid item>

@@ -21,12 +21,14 @@ import RestaurantMenuIcon from "@mui/icons-material/RestaurantMenu";
 import logo from "../../asset/Logo.png";
 import { CardMedia } from "@mui/material";
 import { useIsAdminLoggedContext } from "../../context/isAdminLoggedContext";
+import { NavBar } from "../navbar/navbar";
 
 const drawerWidth = 240;
 
 export const SideBar = (props) => {
   const { window } = props;
   const [mobileOpen, setMobileOpen] = React.useState(false);
+  const whatPage=props.whatPage
   const styles = {
     DrawerTop: (theme) => ({
       width: `80%`,
@@ -107,8 +109,8 @@ export const SideBar = (props) => {
         sx={{
           width: { sm: `calc(100% - ${drawerWidth}px)` },
           ml: { sm: `${drawerWidth}px` },
-        }}>         
-      </AppBar>
+        }}></AppBar>
+      <NavBar value={{handleDrawerToggle, whatPage}} />
       <Box
         component="nav"
         sx={{ width: { sm: drawerWidth }, flexShrink: { sm: 0 } }}

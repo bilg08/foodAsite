@@ -120,8 +120,7 @@ const Food = (props) => {
 
   return (
     <Grid container>
-      <SideBar />
-      <NavBar type="Цэс" />
+      <SideBar whatPage={'Хоолны цэс'} />
       <Grid item justifyContent="center" sx={styles.FoodsContainer}>
         <AddNewFoodBox />
         <Spinner />
