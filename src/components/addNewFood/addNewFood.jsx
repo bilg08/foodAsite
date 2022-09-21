@@ -18,7 +18,7 @@ import { useAgainGetDocs } from "../../context/getDataAgainContext";
 
 export const AddNewFood = (props) => {
   const [foodImg, setFoodImg] = useState("");
-  const { isSpinning, setIsSpinning, setShouldHaveToReloadPage } =
+  const { isSpinning, setIsSpinning } =
     useSpinnerDatasContext();
   const [isAddingData, setIsAddingData] = useState(false);
   const { setAgainGetDocs } = useAgainGetDocs();
