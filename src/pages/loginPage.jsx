@@ -12,9 +12,9 @@ import Grid from "@mui/material/Grid";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-import { useIsAdminLoggedContext } from "../../context/isAdminLoggedContext";
+import { useIsAdminLoggedContext } from "../context/isAdminLoggedContext";
 import { NavLink, useNavigate } from "react-router-dom";
-import { auth } from "../../firebaseForThisProject/firebase";
+import { auth } from "../firebaseForThisProject/firebase";
 import { signInWithEmailAndPassword } from "firebase/auth";
 function Copyright(props) {
   return (

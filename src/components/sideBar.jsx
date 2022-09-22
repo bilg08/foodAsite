@@ -18,17 +18,18 @@ import { Link } from "react-router-dom";
 import ListAltIcon from "@mui/icons-material/ListAlt";
 import SignalCellularAltIcon from "@mui/icons-material/SignalCellularAlt";
 import RestaurantMenuIcon from "@mui/icons-material/RestaurantMenu";
-import logo from "../../asset/Logo.png";
+import logo from "../asset/Logo.png";
 import { CardMedia } from "@mui/material";
-import { useIsAdminLoggedContext } from "../../context/isAdminLoggedContext";
-import { NavBar } from "../navbar/navbar";
+import { useIsAdminLoggedContext } from "../context/isAdminLoggedContext";
 
 const drawerWidth = 240;
 
-export const SideBar = (props) => {
+export const Sidebar = (props) => {
+  console.log(props,'p');
   const { window } = props;
+  const handleDrawerOpen=props.handleDrawerOpen
   const [mobileOpen, setMobileOpen] = React.useState(false);
-  const whatPage=props.whatPage
+  const whatPage = props.whatPage;
   const styles = {
     DrawerTop: (theme) => ({
       width: `80%`,
@@ -50,9 +51,7 @@ export const SideBar = (props) => {
     }),
   };
 
-  const handleDrawerToggle = () => {
-    setMobileOpen(!mobileOpen);
-  };
+ 
 
   const drawer = (
     <div>
@@ -67,7 +66,7 @@ export const SideBar = (props) => {
         {[
           {
             text: "Захиалга",
-            pathName: `/Orders`,
+            pathName: `/OrdersPage`,
             icon: <ListAltIcon />,
           },
           {
@@ -84,8 +83,7 @@ export const SideBar = (props) => {
           <Link
             style={{ textDecoration: "none" }}
             key={item.text}
-            to={item.pathName}
-          >
+            to={item.pathName}>
             <ListItem key={index} disablePadding>
               <ListItemButton sx={styles.button}>
                 <ListItemIcon sx={{ color: "white" }}>{item.icon}</ListItemIcon>
@@ -110,7 +108,6 @@ export const SideBar = (props) => {
           width: { sm: `calc(100% - ${drawerWidth}px)` },
           ml: { sm: `${drawerWidth}px` },
         }}></AppBar>
-      <NavBar value={{handleDrawerToggle, whatPage}} />
       <Box
         component="nav"
         sx={{ width: { sm: drawerWidth }, flexShrink: { sm: 0 } }}
@@ -118,8 +115,8 @@ export const SideBar = (props) => {
         <Drawer
           container={container}
           variant="temporary"
-          open={mobileOpen}
-          onClose={handleDrawerToggle}
+          open={props.open}
+          onClose={() => props.handleDrawerClose()}
           ModalProps={{
             keepMounted: true,
           }}
@@ -151,6 +148,6 @@ export const SideBar = (props) => {
   );
 };
 
-SideBar.propTypes = {
+Sidebar.propTypes = {
   window: PropTypes.func,
 };

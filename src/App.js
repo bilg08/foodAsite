@@ -1,31 +1,27 @@
-import {OrderPage} from "./pages/OrderPage/orderPage"
-import { ThemeProviderStyles } from "../src/themeProvider/theme";
-import { Menu } from "./pages/Menu/Menu";
-import { Route, Routes } from "react-router-dom";
-import "./App.css";
-import { Graphic } from "./pages/graphic/graphic.jsx";
-import SignUp from "./pages/userRegisteration/signUp";
-import SignInSide from "./pages/userRegisteration/loginPage";
-import { useIsAdminLoggedContext } from "./context/isAdminLoggedContext";
-
-export const App = () => {
-  const { isAdminLogged } = useIsAdminLoggedContext();
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { Layout } from "./Layout.jsx";
+import { OrderPage } from './pages/orderPage';
+import './App.css'
+import { Menu } from "./pages/Menu.jsx";
+import { Graphic } from "./pages/graphic";
+import {useIsAdminLoggedContext} from "./context/isAdminLoggedContext"
+import SignInSide from "./pages/loginPage.jsx";
+function App() {
+  const {isAdminLogged}=useIsAdminLoggedContext()
   return (
-    <ThemeProviderStyles>
-      <div className="App">
-        {isAdminLogged === true ? (
-          <Routes>
-            <Route path={`/Menu`} element={<Menu />} />
-            <Route path={`/Orders`} element={<OrderPage />} />
-            <Route path={`/Graphic`} element={<Graphic />} />
-          </Routes>
-        ) : (
-          <Routes>
-            <Route path="/" element={<SignInSide />} />
-            <Route path="/SignUp" element={<SignUp />} />
-          </Routes>
-        )}
-      </div>
-    </ThemeProviderStyles>
+    <Routes>
+      {isAdminLogged === true ? 
+        <Route path="/" element={<Layout />}>
+          <Route path="OrdersPage" element={<OrderPage />} />
+          <Route path="Menu" element={<Menu />} />
+          <Route path="graphic" element={<Graphic />} />
+          <Route path="*" element={<h1>404 NOT FOUND</h1>} />
+        </Route>
+       :
+          <Route path="/" element={<SignInSide />} />
+      }
+    </Routes>
   );
-};
+}
+
+export default App;

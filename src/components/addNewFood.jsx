@@ -1,21 +1,22 @@
 import {
+  Alert,
+  AlertTitle,
   Backdrop,
   Box,
   Button,
   CardMedia,
   Grid,
-  Input,
-  TextField,
   Typography,
 } from "@mui/material";
 import CameraAltIcon from "@mui/icons-material/CameraAlt";
 import { useState } from "react";
-import { setDocToFirebase } from "../../firebaseForThisProject/setDoc";
+import { setDocToFirebase } from "../firebaseForThisProject/setDoc";
 import CloseIcon from "@mui/icons-material/Close";
-import { uploadImageToFirebase } from "../../firebaseForThisProject/storage";
-import { styles, StyledInput } from "./styles";
-import { useSpinnerDatasContext } from "../../context/spinnerContext";
-import { useAgainGetDocs } from "../../context/getDataAgainContext";
+import { uploadImageToFirebase } from "../firebaseForThisProject/storage";
+import { useSpinnerDatasContext } from "../context/spinnerContext";
+import { useAgainGetDocs } from "../context/getDataAgainContext";
+import { Input, styled, TextField } from "@mui/material";
+
 import { useRef } from "react";
 import { useEffect } from "react";
 
@@ -26,43 +27,19 @@ export const AddNewFood = (props) => {
   const [isAddingData, setIsAddingData] = useState(false);
   const { setAgainGetDocs } = useAgainGetDocs();
   const { isAddNewFoodFormOpen, setIsAddNewFoodFormOpen } = props.value;
+  const [formIsNotFilled,setFormIsNotFilled]=useState(false)
   const [foodform, setFoodform] = useState({
     foodName: "",
     foodDetail: "",
     foodPrice: "",
     foodPortion: "",
   });
-  const [ImageUrl, setImageUrl] = useState();
-  // const [FoodIngredients, setFoodIngredients] = useState([]);
-  // const foodIngredient=useRef(null)
+  const [ImageUrl, setImageUrl] = useState("");
+
   const takeFoodDetail = (e) => {
     setFoodform({ ...foodform, [e.target.name]: e.target.value });
   };
-  // const addFoodIngredient = () => {
-  //   const ingredientsFromAdmin = foodIngredient.current.value;
-  //   setFoodIngredients(prevVal => {
-  //     let prevValAcopy = prevVal;
-  //     const isExist = prevValAcopy.indexOf(ingredientsFromAdmin);
-  //     if (ingredientsFromAdmin != "") {
-  //         if (isExist === -1) {
-  //           prevValAcopy = [...prevValAcopy, ingredientsFromAdmin];
-  //         } else if (isExist != -1) {
-  //           prevValAcopy.splice(isExist, 1);
-  //         } 
-  //     }
-  //     return(prevValAcopy)
-  //   })
-  // }
-  // const deleteIngredient = (ingredient) => {
-  //   console.log(ingredient)
-  //   setFoodIngredients((prevVal) => {
-  //     let prevValAcopy = prevVal;
-  //     const indexOfTheIngredient = prevValAcopy.indexOf(ingredient);
-  //     console.log(FoodIngredients,'kk1')
-  //     prevValAcopy.splice(indexOfTheIngredient, 1);
-  //     return prevValAcopy;
-  //   });
-  // }
+  
   const formDetailsItems = [
     { type: "Хоолны нэр", inputName: "foodName" },
     { type: "Дэлгэрэнгүй", inputName: "foodDetail" },
@@ -71,22 +48,26 @@ export const AddNewFood = (props) => {
   ];
 
   const takeUserOrder = async () => {
-    setIsSpinning(true);
-    setIsAddNewFoodFormOpen(false);
-    await setDocToFirebase(`foods/${foodform.foodName}`, foodform).then(
-      async () => {
-        await uploadImageToFirebase(foodImg, foodform.foodName);
-        await setIsSpinning(false);
-        await setFoodform({
-          foodName: "",
-          foodDetail: "",
-          foodPrice: "",
-          foodPortion: "",
-        });
-        await setImageUrl("");
-        setAgainGetDocs((prevVal) => !prevVal);
-      }
-    );
+    if (ImageUrl!="",foodImg!="",foodform.foodDetail != "" && foodform.foodName != "" && foodform.foodPortion != "" && foodform.foodPortion!="") {
+        setIsSpinning(true);
+        setIsAddNewFoodFormOpen(false);
+        await setDocToFirebase(`foods/${foodform.foodName}`, foodform).then(
+          async () => {
+            await uploadImageToFirebase(foodImg, foodform.foodName);
+            await setIsSpinning(false);
+            await setFoodform({
+              foodName: "",
+              foodDetail: "",
+              foodPrice: "",
+              foodPortion: "",
+            });
+            await setImageUrl("");
+            setAgainGetDocs((prevVal) => !prevVal);
+          }
+        );
+    } else {
+      setFormIsNotFilled(true);
+    }
   };
 
   function takeFoodImgUrlToShowImgInAddNewFoodImgSection(e) {
@@ -147,6 +128,15 @@ export const AddNewFood = (props) => {
               </label>
             </Box>
           </Grid>
+          <Backdrop
+            sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
+            open={formIsNotFilled}
+            onClick={() => setFormIsNotFilled(false)}>
+            <Alert severity="error">
+              <AlertTitle>Мэдээлэл дутуу байна</AlertTitle>
+            </Alert>
+          </Backdrop>
+
           <Grid item sx={styles.FoodForm}>
             {formDetailsItems.map((formDetailsItem, index) => {
               return (
@@ -166,7 +156,7 @@ export const AddNewFood = (props) => {
               );
             })}
           </Grid>
-        {/* </Grid> */}
+          {/* </Grid> */}
           {/* 
          <h1>Хоолны орц</h1>
             <TextField
@@ -180,7 +170,7 @@ export const AddNewFood = (props) => {
             </Button>
           </Grid>
           <Grid item sx={styles.showFoodIngredientsAdminAdded}> */}
-              {/* {FoodIngredients.map((ingredient) => {
+          {/* {FoodIngredients.map((ingredient) => {
                 return (
                   <>
                     <p>{ingredient}</p>
@@ -198,3 +188,115 @@ export const AddNewFood = (props) => {
     </Backdrop>
   );
 };
+
+
+
+
+export const styles = {
+  addNewFoodContainer: (theme) => ({
+    width: `40%`,
+    height: `95%`,
+    background: "white",
+    borderRadius: "10px",
+    display: "flex",
+    color: "black",
+    [theme.breakpoints.down("sm")]: {
+      width: `400px`,
+      height:`400px`
+    },
+    [theme.breakpoints.between("sm", "md")]: {
+      width: `550px`,
+    },
+    [theme.breakpoints.between("md", "lg")]: {
+      width: `750px`,
+    },
+    [theme.breakpoints.up("lg")]: {
+      width: `850px`,
+    },
+  }),
+  AddNewFoodHeader: (theme) => ({
+    width: `100%`,
+    height: `8%`,
+    display: "flex",
+    justifyContent: "space-between",
+    alignItems: "center",
+  }),
+  FoodFormContainer: (theme) => ({
+    width: `100%`,
+    height: `40%`,
+    display: "flex",
+    justifyContent: "space-around",
+    alignItems: "center",
+  }),
+  FoodFormImageContainer: (theme) => ({
+    width: `40%`,
+    height: `auto`,
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "center",
+    alignItems: "center",
+    color: "white",
+  }),
+  FoodFormImage: (theme) => ({
+    width: `70%`,
+    height: `70%`,
+    borderRadius: `50%`,
+    position: "relative",
+    border: `1px solid #66B60F`,
+  }),
+  FoodForm: (theme) => ({
+    width: `50%`,
+    height: `auto`,
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "start",
+    alignItems: "start",
+  }),
+  FoodIngredients: (theme) => ({
+    width: `100%`,
+    height: `40%`,
+    background: "red",
+    display: "flex",
+    alignItems: "center",
+  }),
+  FoodIngredientsAddingSection: (theme) => ({
+    width: `50%`,
+    height: `100%`,
+    background: "green",
+    display: "flex",
+    alignItems: "center",
+    flexFlow: "column",
+  }),
+  showFoodIngredientsAdminAdded: (theme) => ({
+    width: `50%`,
+    height: `100%`,
+    background: "yellow",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    flexWrap: "wrap",
+    gap: `2%`,
+  }),
+  CameraIcon: (theme) => ({
+    padding: `5px`,
+    position: "absolute",
+    bottom: 0,
+    right: 0,
+    background: theme.palette.silver,
+    borderRadius: `100%`,
+    boxShadow: "0 0 0 6px white",
+  }),
+  styleForFormBottom: (theme) => ({
+    display: "flex",
+    [theme.breakpoints.down("sm")]: {
+      flexDirection: "column",
+    },
+  }),
+};
+
+export const StyledInput = styled(TextField)((theme) => ({
+  background: `#FFFFFF`,
+  borderRadius: `6px`,
+  width: `100%`,
+  outline: "none",
+}));

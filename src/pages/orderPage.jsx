@@ -1,5 +1,4 @@
 import * as React from "react";
-import { SideBar } from "../../components/sideBar/sideBar";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
 import PhoneIcon from "@mui/icons-material/Phone";
 import {
@@ -10,21 +9,15 @@ import {
   AccordionDetails,
   Badge,
   Button,
+  styled
 } from "@mui/material";
 import InventoryIcon from "@mui/icons-material/Inventory";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import { setDocToFirebase } from "../../firebaseForThisProject/setDoc";
-import {
-  styles,
-  AOrdersHeader,
-  OrdersContainer,
-  ShippedOrder,
-  NewOrder,
-} from "./styles.jsx";
-import { useGetDatasFromArrayofDoc } from "../../customHook/getDatasFromDocsArray";
-import { NavBar } from "../../components/navbar/navbar";
-import { useAgainGetDocs } from "../../context/getDataAgainContext";
-import { deleteDocOfFirebase } from "../../firebaseForThisProject/deleteDoc";
+import { setDocToFirebase } from "../firebaseForThisProject/setDoc";
+
+import { useGetDatasFromArrayofDoc } from "../customHook/getDatasFromDocsArray";
+import { useAgainGetDocs } from "../context/getDataAgainContext";
+import { deleteDocOfFirebase } from "../firebaseForThisProject/deleteDoc";
 export const OrderPage = () => {
   const newOrders = useGetDatasFromArrayofDoc("ThisDayOrders");
   const shippedOrders = useGetDatasFromArrayofDoc("shippedOrders");
@@ -368,7 +361,6 @@ export const OrderPage = () => {
   
   return (
     <Grid container>
-      <SideBar whatPage={"Захиалга"} />
       <Grid item container sx={styles.AllOrdersContainer}>
         <NewOrders />
         <PackagedOrders />
@@ -377,3 +369,62 @@ export const OrderPage = () => {
     </Grid>
   );
 };
+
+
+
+
+const drawerWidth = 240;
+
+export const styles = {
+  AllOrdersContainer: (theme) => ({
+    width: `100%`,
+    height: `auto`,
+    p: 10,
+    display: "flex",
+    flexDirection: "column",
+    background: "#F5F5F7",
+    overflow: "scroll",
+    flexWrap: "wrap",
+    position: "relative",
+    gap: `10px`,
+  }),
+  newOrdersContainer: (theme) => ({
+    minWidth: `250px`,
+    width: `auto`,
+    overflow: "scroll",
+    display: "flex",
+    flexDirection: "column",
+  }),
+  shippedOrdersContainer: (theme) => ({
+    minWidth: `250px`,
+    width: `auto`,
+    overflow: "scroll",
+    display: "flex",
+    flexDirection: "column",
+  }),
+};
+export const AOrdersHeader = styled(Grid)(({ theme }) => ({
+  width: `auto`,
+  height: `auto`,
+  background: `white`,
+  display: "flex",
+  justifyContent: "start",
+}));
+
+export const OrdersContainer = styled(Grid)(({ theme }) => ({
+  maxWidth: `100%`,
+  height: `auto`,
+  display: "flex",
+  flexFlow: "row",
+  [theme.breakpoints.down("md")]: {
+    flexFlow: "column",
+  },
+}));
+export const NewOrder = styled(Grid)(({ theme }) => ({
+  minWidth: `250px`,
+  height: `auto`,
+}));
+export const ShippedOrder = styled(Grid)(({ theme }) => ({
+  minWidth: `250px`,
+  height: `auto`,
+}));

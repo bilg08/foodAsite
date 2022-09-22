@@ -1,5 +1,4 @@
 import { createTheme, ThemeProvider } from "@mui/material";
-
 const themes = createTheme({
   palette: {
     green: "#66B60F",
@@ -12,6 +11,7 @@ const themes = createTheme({
   },
   shadows: Array(25).fill("none"),
 });
+
 export const ThemeProviderStyles = ({ children }) => {
     return (
         <ThemeProvider theme={themes}>

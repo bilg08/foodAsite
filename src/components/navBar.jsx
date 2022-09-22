@@ -18,18 +18,17 @@ import { Box } from "@mui/system";
 import SearchIcon from "@mui/icons-material/Search";
 import NotificationsNoneIcon from "@mui/icons-material/NotificationsNone";
 import MenuIcon from "@mui/icons-material/Menu";
-import { useGetDocsFromFireBase } from "../../customHook/getDocsCustomHook";
-import { useAgainGetDocs } from "../../context/getDataAgainContext";
+import { useGetDocsFromFireBase } from "../customHook/getDocsCustomHook";
+import { useAgainGetDocs } from "../context/getDataAgainContext";
 import { useNavigate } from "react-router-dom";
-import { useIsAdminLoggedContext } from "../../context/isAdminLoggedContext";
+import { useIsAdminLoggedContext } from "../context/isAdminLoggedContext";
 const drawerWidth = 240;
-export const NavBar = (props) => {
-  const settings = ["Logout"];
+export const Navbar = (props) => {
+  console.log(props.handleDrawerOpen,'props')
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
   const navigate = useNavigate();
   const { signOutFromWebSite } = useIsAdminLoggedContext();
-  const { handleDrawerToggle, whatPage } = props.value;
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
   };
@@ -44,15 +43,19 @@ export const NavBar = (props) => {
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
   };
+const drawerWidth = 240;
 
-  
   const StyledHeader = styled(Toolbar)(({ theme }) => ({
     background: "#FFFFFF",
+    width: { sm: `calc(100% - ${drawerWidth}px)` },
     display: "flex",
     alignItems: "center",
     justifyContent: "space-between",
     position: "relative",
     color: "black",
+    [theme.breakpoints.down('sm')]: {
+      width:`100%`
+    }
   }));
   const HeaderSectionWithAvatarAndSearchNotification = styled(Box)(
     ({ theme }) => ({
@@ -84,60 +87,53 @@ export const NavBar = (props) => {
     }),
     NavbarContainer: (theme) => ({
       width: { sm: `calc(100% - ${drawerWidth}px)` },
-      [theme.breakpoints.down('sm')]: {
-        width:`100%`
-      }
+      [theme.breakpoints.down("sm")]: {
+        width: `100%`,
+      },
     }),
   };
   return (
     <AppBar position="fixed" sx={styles.NavbarContainer}>
-      <StyledHeader>
+      <Toolbar sx={{ display: "flex", justifyContent: "space-between" }}>
         <IconButton
-          onClick={() => handleDrawerToggle()}
           color="inherit"
           aria-label="open drawer"
           edge="start"
-          sx={styles.menuButton}>
+          onClick={() => {
+            console.log('clicked')
+            props.handleDrawerOpen();
+          }}
+          sx={{ mr: 2, display: { sm: "none" } }}>
           <MenuIcon />
         </IconButton>
-        <Box
-          sx={{
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "space-between",
-            gap: `50px`,
-          }}>
-          <h2>{whatPage}</h2>
+        <Typography variant="h6" noWrap component="div">
+          Хоолондоо
+        </Typography>
+        <Box sx={{ flexGrow: 0 }}>
+          <Tooltip title="Open settings">
+            <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
+              <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
+            </IconButton>
+          </Tooltip>
+          <Menu
+            sx={{ mt: "45px" }}
+            id="menu-appbar"
+            anchorEl={anchorElUser}
+            open={Boolean(anchorElUser)}
+            onClose={handleCloseUserMenu}>
+            <MenuItem key="Гарах" onClick={handleCloseUserMenu}>
+              <Button
+                onClick={async () => {
+                  await signOutFromWebSite();
+                  navigate('/')
+                }}
+                textAlign="center">
+                Гарах
+              </Button>
+            </MenuItem>
+          </Menu>
         </Box>
-        <HeaderSectionWithAvatarAndSearchNotification>
-          <Box sx={{ flexGrow: 0 }}>
-            <Tooltip title="Open settings">
-              <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
-              </IconButton>
-            </Tooltip>
-            <Menu
-              sx={{ mt: "45px" }}
-              id="menu-appbar"
-              anchorEl={anchorElUser}
-              open={Boolean(anchorElUser)}
-              onClose={handleCloseUserMenu}>
-              {settings.map((setting) => (
-                <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                  <Button
-                    onClick={async () => {
-                      await signOutFromWebSite();
-                      navigate("/");
-                    }}
-                    textAlign="center">
-                    {setting}
-                  </Button>
-                </MenuItem>
-              ))}
-            </Menu>
-          </Box>
-        </HeaderSectionWithAvatarAndSearchNotification>
-      </StyledHeader>
+      </Toolbar>
     </AppBar>
   );
 };

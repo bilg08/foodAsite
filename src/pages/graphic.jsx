@@ -1,13 +1,11 @@
 import * as React from "react";
 import { Card,Grid } from "@mui/material";
 import RestaurantMenuIcon from "@mui/icons-material/RestaurantMenu";
-import { SideBar } from "../../components/sideBar/sideBar";
 
-import { styles } from "./styles";
-import { useGetDatasFromArrayofDoc } from "../../customHook/getDatasFromDocsArray";
-import { useGetDocsFromFireBase } from "../../customHook/getDocsCustomHook";
+import { useGetDatasFromArrayofDoc } from "../customHook/getDatasFromDocsArray";
+import { useGetDocsFromFireBase } from "../customHook/getDocsCustomHook";
 import { useEffect } from "react";
-import { useGetAllOrdersDetails } from "../../customHook/getAllDatasForGraphic";
+import { useGetAllOrdersDetails } from "../customHook/getAllDatasForGraphic";
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -18,7 +16,6 @@ import {
   Legend,
 } from "chart.js";
 import { Bar } from "react-chartjs-2";
-import { NavBar } from "../../components/navbar/navbar";
 
 
 ChartJS.register(
@@ -62,7 +59,6 @@ export const Graphic = () => {
   };
   return (
     <Grid container>
-      <SideBar whatPage={"График"} />
       <Grid item sx={styles.GraphicComponentContainer}>
         <Grid sx={styles.GraphicHeader}>
           <Grid item>
@@ -96,4 +92,41 @@ export const Graphic = () => {
       </Grid>
     </Grid>
   );
+};
+const drawerWidth = 240;
+export const styles = {
+  GraphicComponentContainer: (theme) => ({
+    width: `100%`,
+    height: `100%`,
+    p: 10,
+    display: "flex",
+    background: "#F5F5F7",
+    justifyContent: "center",
+    alignItems: "center",
+    flexWrap: "wrap",
+    gap: `10px`,
+    [theme.breakpoints.down("sm")]: {
+      width: `auto`,
+      margin: "auto",
+    },
+  }),
+  GraphicHeader: (theme) => ({
+    width: `100%`,
+    display: "flex",
+    justifyContent: "space-between",
+    alignItems: "center",
+    flexWrap: "wrap",
+    [theme.breakpoints.down("md")]: {
+      width: `auto`,
+      margin: "auto",
+      justifyContent: "center",
+    },
+  }),
+  card: (theme) => ({
+    width: `250px`,
+    height: `135px`,
+    background: `#FFFFFF`,
+    border: `1px solid #DFE0EB`,
+    borderRadius: `8px`,
+  }),
 };
