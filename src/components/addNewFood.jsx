@@ -211,7 +211,8 @@ export const styles = {
       width: `750px`,
     },
     [theme.breakpoints.up("lg")]: {
-      width: `850px`,
+      width: `750px`,
+      height:`650px`,
     },
   }),
   AddNewFoodHeader: (theme) => ({

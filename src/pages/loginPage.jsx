@@ -25,7 +25,7 @@ function Copyright(props) {
       {...props}
     >
       {"Copyright © "}
-      <Link color="inherit" href="https://mui.com/">
+      <Link color="inherit" href="/">
         Your Website
       </Link>{" "}
       {new Date().getFullYear()}
@@ -125,16 +125,7 @@ export default function SignInSide() {
                 sx={{ mt: 3, mb: 2 }}>
                 Нэвтрэх
               </Button>
-              <Grid container>
-                <Grid item>
-                  <NavLink
-                    style={{ textDecoration: "none", color: "black" }}
-                    to="/SignUp"
-                    variant="body2">
-                    {"Та бүртгэлгүй юу? "}
-                  </NavLink>
-                </Grid>
-              </Grid>
+              
               <Copyright sx={{ mt: 5 }} />
             </Box>
           </Box>
