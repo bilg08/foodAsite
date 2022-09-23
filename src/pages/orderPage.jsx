@@ -31,19 +31,20 @@ export const OrderPage = () => {
       ).then(()=>{setAgainGetDocs(prevVal=>!prevVal)});
       
     }
+
     const changeOrderTypeAsPackaged = async (
       orderedDate,
       orderUid,
       orderData
     ) => {
-            const changedOrderData = {
+    const changedOrderData = {
               ...orderData,
               isOrdered: false,
               isShipped: true,
-            };
-   await deleteDocOfFirebase(
-     `foodsOrders/${orderedDate}/ThisDayOrders/${orderUid}`
-   );
+    };
+     await deleteDocOfFirebase(
+       `foodsOrders/${orderedDate}/ThisDayOrders/${orderUid}`
+     );
       await setDocToFirebase(
         `foodsOrders/${orderedDate}/packegedOrders/${orderUid}`,
         changedOrderData
