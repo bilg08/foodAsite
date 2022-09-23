@@ -1,10 +1,10 @@
 {
   "files": {
-    "main.css": "/static/css/main.41dcd41b.css",
-    "main.js": "/static/js/main.ffd50c65.js",
-    "index.html": "/index.html",
-    "main.41dcd41b.css.map": "/static/css/main.41dcd41b.css.map",
-    "main.ffd50c65.js.map": "/static/js/main.ffd50c65.js.map"
+    "main.css": "/foodAsite/static/css/main.41dcd41b.css",
+    "main.js": "/foodAsite/static/js/main.ffd50c65.js",
+    "index.html": "/foodAsite/index.html",
+    "main.41dcd41b.css.map": "/foodAsite/static/css/main.41dcd41b.css.map",
+    "main.ffd50c65.js.map": "/foodAsite/static/js/main.ffd50c65.js.map"
   },
   "entrypoints": [
     "static/css/main.41dcd41b.css",
