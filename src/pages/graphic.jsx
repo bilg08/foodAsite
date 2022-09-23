@@ -37,6 +37,7 @@ const options = {
 
 
 export const Graphic = () => {
+
   const allOrdersDetails = useGetAllOrdersDetails();
   const data = {
 
@@ -55,8 +56,12 @@ export const Graphic = () => {
         ],
         borderWidth: 1,
       },
+
     ],
   };
+
+
+
   return (
     <Grid container>
       <Grid item sx={styles.GraphicComponentContainer}>
@@ -93,6 +98,7 @@ export const Graphic = () => {
     </Grid>
   );
 };
+
 const drawerWidth = 240;
 export const styles = {
   GraphicComponentContainer: (theme) => ({

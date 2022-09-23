@@ -7,7 +7,6 @@ export const useGetDocsFromFireBase = (collectionName) => {
   let [data, setDatas] = useState([]);
   const { againGetDocs, setAgainGetDocs } = useAgainGetDocs();
   const getData = async () => {
-    setDatas((data = []));
     try {
       const datas = await getDocs(collection(db, collectionName));
       datas.forEach((e) => {
@@ -22,6 +21,7 @@ export const useGetDocsFromFireBase = (collectionName) => {
 
   useEffect(() => {
     getData();
+    return(()=>setDatas([]))
   }, [againGetDocs]);
   return [data];
 };

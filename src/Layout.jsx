@@ -7,7 +7,7 @@ export const Layout = () => {
   const [open, setOpen] = useState(true);
     const styles = {
       outletBox: (theme) => ({
-        pl: open ? 10 : 30,
+        pl: open ? 30 : 30,
         [theme.breakpoints.down("sm")]: {
           pl: open ? 0 : 0,
         },
