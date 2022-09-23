@@ -3,14 +3,15 @@ import { getAuth } from "firebase/auth";
 import { getFirestore } from "firebase/firestore";
 import { getStorage } from "firebase/storage";
 const firebaseConfig = {
-  apiKey: "AIzaSyCDcd8S34wRMmMauMz_Z3KtkfVhAk1gejI",
-  authDomain: "adminforfoodsite-6bc3f.firebaseapp.com",
-  projectId: "adminforfoodsite-6bc3f",
-  storageBucket: "adminforfoodsite-6bc3f.appspot.com",
-  messagingSenderId: "195328802961",
-  appId: "1:195328802961:web:17e167470ef1514538ff30",
-  measurementId: "G-LJ97F6TJC4",
+  apiKey: "AIzaSyD3yRQAKl7YlCgktp8eBebg9qUMQzawkZA",
+  authDomain: "foodyadmin-a0da0.firebaseapp.com",
+  projectId: "foodyadmin-a0da0",
+  storageBucket: "foodyadmin-a0da0.appspot.com",
+  messagingSenderId: "1061649061643",
+  appId: "1:1061649061643:web:7932f7617175a1926ef40e",
+  measurementId: "G-71R5HHG8S5"
 };
+
 const app = initializeApp(firebaseConfig);
 export const db = getFirestore(app);
 export const auth = getAuth(app);
