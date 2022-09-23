@@ -22,30 +22,40 @@ import { useEffect } from "react";
 
 export const AddNewFood = (props) => {
   const [foodImg, setFoodImg] = useState("");
-  const { isSpinning, setIsSpinning } =
-    useSpinnerDatasContext();
+  const { isSpinning, setIsSpinning } = useSpinnerDatasContext();
   const [isAddingData, setIsAddingData] = useState(false);
   const { setAgainGetDocs } = useAgainGetDocs();
   const { isAddNewFoodFormOpen, setIsAddNewFoodFormOpen } = props.value;
-  const [formIsNotFilled,setFormIsNotFilled]=useState(false)
+  const [formIsNotFilled,setFormIsNotFilled]=useState(false);
+
   const [foodform, setFoodform] = useState({
     foodName: "",
     foodDetail: "",
     foodPrice: "",
     foodPortion: "",
   });
+
+
   const [ImageUrl, setImageUrl] = useState("");
+
+
 
   const takeFoodDetail = (e) => {
     setFoodform({ ...foodform, [e.target.name]: e.target.value });
   };
   
+
+
+
   const formDetailsItems = [
     { type: "Хоолны нэр", inputName: "foodName" },
     { type: "Дэлгэрэнгүй", inputName: "foodDetail" },
     { type: "Үнэ", inputName: "foodPrice" },
     { type: "Порц", inputName: "foodPortion" },
   ];
+
+
+
 
   const takeUserOrder = async () => {
     if (ImageUrl!="",foodImg!="",foodform.foodDetail != "" && foodform.foodName != "" && foodform.foodPortion != "" && foodform.foodPortion!="") {
@@ -70,19 +80,32 @@ export const AddNewFood = (props) => {
     }
   };
 
+
+
+
+
+
+
+
   function takeFoodImgUrlToShowImgInAddNewFoodImgSection(e) {
-    var file = e.target.files[0];
-    var reader = new FileReader();
-    reader.onload = function (event) {
-      setImageUrl(event.target.result);
-    };
-    reader.readAsDataURL(file);
-    setFoodImg((prevVal) => {
-      let prevValACopy = prevVal;
-      prevValACopy = e.target.files[0];
-      return (prevVal = prevValACopy);
-    });
+      var file = e.target.files[0];
+      var reader = new FileReader();
+      reader.onload = function (event) {
+        setImageUrl(event.target.result);
+      };
+      reader.readAsDataURL(file);
+      setFoodImg((prevVal) => {
+        let prevValACopy = prevVal;
+        prevValACopy = e.target.files[0];
+        return (prevVal = prevValACopy);
+      });
   }
+
+
+
+
+
+
 
   return (
     <Backdrop
@@ -156,38 +179,18 @@ export const AddNewFood = (props) => {
               );
             })}
           </Grid>
-          {/* </Grid> */}
-          {/* 
-         <h1>Хоолны орц</h1>
-            <TextField
-              inputRef={foodIngredient}
-              placeholder="Та орцоо оруулна уу?"
-            /><Grid item sx={styles.FoodIngredients}>
-          <Grid item sx={styles.FoodIngredientsAddingSection}>
-           
-            <Button variant="contained" onClick={() => addFoodIngredient()}>
-              Нэмэх
-            </Button>
-          </Grid>
-          <Grid item sx={styles.showFoodIngredientsAdminAdded}> */}
-          {/* {FoodIngredients.map((ingredient) => {
-                return (
-                  <>
-                    <p>{ingredient}</p>
-                    <Button
-                      onClick={() => deleteIngredient(ingredient)}
-                      variant="contained">
-                      -
-                    </Button>
-                  </>
-                );
-              })}
-          </Grid> */}
+
         </Grid>
       </Grid>
     </Backdrop>
   );
 };
+
+
+
+
+
+
 
 
 
