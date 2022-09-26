@@ -38,9 +38,9 @@ export const OrderPage = () => {
       orderData
     ) => {
     const changedOrderData = {
-              ...orderData,
-              isOrdered: false,
-              isShipped: true,
+      ...orderData,
+      isShipped: true,
+      isOrdered: false,
     };
      await deleteDocOfFirebase(
        `foodsOrders/${orderedDate}/ThisDayOrders/${orderUid}`
