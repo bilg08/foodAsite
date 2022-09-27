@@ -16,6 +16,7 @@ import { useIsAdminLoggedContext } from "../context/isAdminLoggedContext";
 import { NavLink, useNavigate } from "react-router-dom";
 import { auth } from "../firebaseForThisProject/firebase";
 import { signInWithEmailAndPassword } from "firebase/auth";
+console.log(process.env.REACT_APP_NOT_SECRET_CODE);
 function Copyright(props) {
   return (
     <Typography
